@@ -1,0 +1,6 @@
+{
+  "message": {
+    "hello": "Hallo Welt!",
+    "welcome": "Willkommen zu Ihrer Vue 3 App!"
+  }
+}
