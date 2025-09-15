@@ -1,8 +1,9 @@
 import { VALUE_TYPES } from '../enums'
+import iterateCards from './iterateCards'
 
 export const AMOUNT_PER_CARD = 4
 
-export default [
+const cards = [
   {
     name: 'Fester Griff',
     effect: {
@@ -89,3 +90,5 @@ export default [
     },
   },
 ]
+
+export default () => iterateCards(cards, AMOUNT_PER_CARD)

@@ -1,9 +1,10 @@
 import { VALUE_TYPES } from '../enums'
 import ICharacterStats from '../interfaces/ICharacterStats'
+import iterateCards from './iterateCards'
 
 export const AMOUNT_PER_CARD = 3
 
-export default [
+const cards = [
   {
     name: 'Blocken',
     effect: {
@@ -60,3 +61,5 @@ export default [
     },
   },
 ]
+
+export default () => iterateCards(cards, AMOUNT_PER_CARD)

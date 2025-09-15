@@ -1,6 +1,8 @@
+import iterateCards from './iterateCards'
+
 export const AMOUNT_PER_CARD = 2
 
-export default [
+const cards = [
   {
     name: 'Schlangenbiss',
     effect: {
@@ -42,3 +44,5 @@ export default [
     },
   },
 ]
+
+export default () => iterateCards(cards, AMOUNT_PER_CARD)
