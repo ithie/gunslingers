@@ -11,11 +11,11 @@ const styleClasses = computed(() => ['card', `type-${type}`])
 </script>
 <style lang="scss">
 .card {
-  height: 350px;
-  width: 250px;
+  height: 140px;
+  width: 100px;
   background-color: white;
-  border: 5px solid blue;
-  border-radius: 15px;
+  border: 3px solid black;
+  border-radius: 10px;
 }
 
 .type-DEFENSE {
@@ -29,5 +29,8 @@ const styleClasses = computed(() => ['card', `type-${type}`])
 }
 .type-CHARACTER {
   border-color: black;
+}
+.type-EMPTY_STACK {
+  border-style: dashed;
 }
 </style>

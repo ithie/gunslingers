@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h1>{{ $t('message.welcome') }}</h1>
-    <p>{{ $t('message.hello') }}</p>
     <button @click="setLocale('de')">Deutsch</button>
     <button @click="setLocale('en')">English</button>
+    <GameTable />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import i18n from './i18n'
+import GameTable from './components/GameTable/GameTable.vue'
 
 const { locale } = useI18n()
 

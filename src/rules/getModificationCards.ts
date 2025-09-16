@@ -1,94 +1,55 @@
-import { VALUE_TYPES } from '../enums'
+import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import ICard from '../interfaces/ICard'
 import iterateCards from './iterateCards'
 
 export const AMOUNT_PER_CARD = 4
 
-const cards = [
+const cards: ICard[] = [
   {
     name: 'Fester Griff',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.ATK]: 2,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.ATK]: 2,
   },
   {
     name: 'Deckung',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.DEF]: 2,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.DEF]: 2,
   },
   {
     name: 'Schneller Ritt',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.SPD]: 2,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.SPD]: 2,
   },
   {
     name: 'Entfesselte Wut',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.ATK]: 2,
-        [VALUE_TYPES.DEF]: -1,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.ATK]: 2,
+    [VALUE_TYPES.DEF]: -1,
   },
   {
     name: 'Stahlweste',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.DEF]: 3,
-        [VALUE_TYPES.SPD]: -2,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.DEF]: 3,
+    [VALUE_TYPES.SPD]: -2,
   },
   {
     name: 'Flinker Finger',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.ATK]: 1,
-        [VALUE_TYPES.SPD]: 1,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.ATK]: 1,
+    [VALUE_TYPES.SPD]: 1,
   },
   {
     name: 'Umgekippter Wagen',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.DEF]: 1,
-        [VALUE_TYPES.SPD]: -1,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.DEF]: 1,
+    [VALUE_TYPES.SPD]: -1,
   },
   {
     name: 'Leichtes Kaliber',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      values: {
-        [VALUE_TYPES.ATK]: -2,
-        [VALUE_TYPES.SPD]: 2,
-      },
-    },
+    type: CARD_TYPES.MODIFICATION,
+    [VALUE_TYPES.ATK]: -2,
+    [VALUE_TYPES.SPD]: 2,
   },
 ]
 
-export default () => iterateCards(cards, AMOUNT_PER_CARD)
+export default () => iterateCards<ICard>(cards, AMOUNT_PER_CARD)

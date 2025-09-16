@@ -1,7 +1,7 @@
-export default (
-  cards: Array<unknown>,
+export default <T = unknown>(
+  cards: Array<T>,
   amountPerCards: number,
-): Array<unknown> => {
+): Array<T> => {
   return cards
     .map((card) => {
       const cardSet = []

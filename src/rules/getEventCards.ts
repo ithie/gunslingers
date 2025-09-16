@@ -1,48 +1,49 @@
+import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import ICard from '../interfaces/ICard'
 import iterateCards from './iterateCards'
 
 export const AMOUNT_PER_CARD = 2
 
-const cards = [
+const cards: ICard[] = [
   {
     name: 'Schlangenbiss',
+    type: CARD_TYPES.EVENT,
     effect: {
       when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      execution: () => {}, // Der gegnerische Charakter erleidet zu Beginn jeder Runde 1 Schaden
+      execution: (data) => data, // Der gegnerische Charakter erleidet zu Beginn jeder Runde 1 Schaden
     },
   },
   {
     name: 'Kopfnuss',
+    type: CARD_TYPES.EVENT,
     effect: {
       when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      execution: () => {}, // Der gegnerische Charakter kann nicht angreifen
+      execution: (data) => data, // Der gegnerische Charakter kann nicht angreifen
     },
   },
   {
     name: 'Heilung',
+    type: CARD_TYPES.EVENT,
     effect: {
       when: 'INSTANT',
-      type: 'INSTANT',
-      execution: () => {}, // Heilt EINMALIG den eigenen Charakter um 2 Lebenspunkte, bis zum Startwert
+      execution: (data) => data, // Heilt EINMALIG den eigenen Charakter um 2 Lebenspunkte, bis zum Startwert
     },
   },
   {
     name: 'Falsches Spiel',
+    type: CARD_TYPES.EVENT,
     effect: {
       when: 'INSTANT',
-      type: 'INSTANT',
-      execution: () => {}, // Der Gegner muss einmalig 2 Karten abwehren
+      execution: (data) => data, // Der Gegner muss einmalig 2 Karten ablegen
     },
   },
   {
     name: 'Schwächung',
-    effect: {
-      when: 'BEFOREHAND',
-      type: 'PERMANENT',
-      execution: () => {}, // Der gegnerische Charakter erhält -2 auf alle Werte
-    },
+    type: CARD_TYPES.EVENT,
+    [VALUE_TYPES.ATK]: -2,
+    [VALUE_TYPES.DEF]: -2,
+    [VALUE_TYPES.SPD]: -2,
   },
 ]
 
-export default () => iterateCards(cards, AMOUNT_PER_CARD)
+export default () => iterateCards<ICard>(cards, AMOUNT_PER_CARD)
