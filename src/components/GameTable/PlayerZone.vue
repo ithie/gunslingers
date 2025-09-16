@@ -9,22 +9,26 @@
             v-for="(zoneCard, index) in zoneCards"
             :key="index"
           >
-            <Card :type="CARD_TYPES.CHARACTER">
-              <div class="name">{{ zoneCard.name }}</div>
-              <div
-                class="zones"
-                v-for="(zone, index) in zoneCard.zones"
-                :key="index"
-              >
-                {{ zone }}
-              </div>
+            <Card :type="CARD_TYPES.CHARACTER" :name="zoneCard.name">
+              <ZoneCard :zones="zoneCard.zones" />
             </Card>
           </div>
         </div>
         <div class="cardsContainer">
           <div class="cardItem" v-for="(handCard, index) in hand" :key="index">
-            <Card :type="handCard.type">
-              <div class="handCard">{{ handCard.name }}</div>
+            <Card :type="handCard.type" :name="handCard.name">
+              <ModificationCard
+                v-if="handCard.type === CARD_TYPES.MODIFICATION"
+                v-bind="handCard"
+              />
+              <DefenseCard
+                v-else-if="handCard.type === CARD_TYPES.DEFENSE"
+                v-bind="handCard"
+              />
+              <EventCard
+                v-else-if="handCard.type === CARD_TYPES.EVENT"
+                v-bind="handCard"
+              />
             </Card>
           </div>
         </div>
@@ -54,11 +58,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { CARD_TYPES, VALUE_TYPES } from '../../enums'
-import ICard from '../../interfaces/ICard'
-import ICharacter from '../../interfaces/ICharacter'
-import IZoneCard from '../../interfaces/IZoneCard'
 import Card from '../Card/Card.vue'
+import ZoneCard from '../ZoneCard/ZoneCard.vue'
 import useGameTable from '../../composables/useGameTable'
+import ModificationCard from '../ModificationCard/ModificationCard.vue'
+import DefenseCard from '../DefenseCard/DefenseCard.vue'
+import EventCard from '../EventCard/EventCard.vue'
 
 const { index } = defineProps<{
   index: number

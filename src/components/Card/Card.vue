@@ -1,23 +1,52 @@
 <template>
-  <div :class="styleClasses"><slot /></div>
+  <div :class="styleClasses" :style="`height: ${height}px; width: ${width}px`">
+    <div class="card-container">
+      <div class="name" v-if="name">{{ name }}</div>
+      <div class="content"><slot /></div>
+      <div class="name" v-if="name">{{ name }}</div>
+    </div>
+  </div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { CARD_TYPES } from '../../enums'
 
-const { type } = defineProps<{ type: CARD_TYPES }>()
+const { type, name } = defineProps<{ type: CARD_TYPES; name?: string }>()
+
+const ratio = 1.4
+const height = 150
+const width = height / ratio
 
 const styleClasses = computed(() => ['card', `type-${type}`])
 </script>
 <style lang="scss">
+.card-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-weight: bold;
+  .name {
+    font-size: 12px;
+    flex-grow: 0;
+  }
+  .content {
+    height: auto;
+    width: 100%;
+    flex-grow: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 .card {
-  height: 140px;
-  width: 100px;
   background-color: white;
   border: 3px solid black;
   border-radius: 10px;
+  overflow: hidden;
 }
-
 .type-DEFENSE {
   border-color: blue;
 }
