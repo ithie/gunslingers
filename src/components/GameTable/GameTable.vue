@@ -1,5 +1,9 @@
 <template>
   <div class="currentPlayer">{{ currentPlayer }}</div>
+  <div>Ablageortkarten: {{ zoneDraftDeckLeft }}</div>
+  <div>
+    Nachziehstapel: {{ draftDeckLeft }} => Nächste: {{ nextCardOnDraftDeck }}
+  </div>
   <div class="table">
     <PlayerZone v-for="(_, index) in players" :key="index" :index="index" />
   </div>
@@ -22,6 +26,10 @@ init(
     zoneCards: { alwaysFull: false, maxZoneCards: 5 },
   },
 )
+
+const zoneDraftDeckLeft = computed(() => gameTable.value.zoneDraftDeck.length)
+const draftDeckLeft = computed(() => gameTable.value.draftDeck.length)
+const nextCardOnDraftDeck = computed(() => gameTable.value.draftDeck[0].type)
 
 const currentPlayer = computed(
   () => gameTable.value.turnStats.activePlayerIndex,

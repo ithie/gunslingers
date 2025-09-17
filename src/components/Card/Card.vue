@@ -5,9 +5,9 @@
     @click="onClick"
   >
     <div class="card-container">
-      <div class="name" v-if="name">{{ name }}</div>
+      <div class="name" v-if="name">{{ $t(name) }}</div>
       <div class="content"><slot /></div>
-      <div class="name" v-if="name">{{ name }}</div>
+      <div class="name" v-if="name">{{ $t(name) }}</div>
     </div>
   </div>
 </template>
@@ -75,10 +75,12 @@ const styleClasses = computed(() => [
   opacity: 0.5;
 }
 .card {
+  cursor: pointer;
   background-color: white;
   border: 3px solid black;
   border-radius: 10px;
   overflow: hidden;
+  display: block;
 }
 .type-DEFENSE {
   border-color: blue;

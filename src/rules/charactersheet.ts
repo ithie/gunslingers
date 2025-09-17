@@ -6,7 +6,7 @@ export const gunslingerData: ICharacter = {
   [VALUE_TYPES.ATK]: 3,
   [VALUE_TYPES.DEF]: 2,
   [VALUE_TYPES.SPD]: 1,
-  name: 'gunslinger',
+  name: 'character.gunslinger',
   type: CARD_TYPES.CHARACTER,
   effect: {
     when: 'BEFOREHAND',
@@ -20,7 +20,7 @@ export const gamblerData: ICharacter = {
   [VALUE_TYPES.ATK]: 1,
   [VALUE_TYPES.DEF]: 1,
   [VALUE_TYPES.SPD]: 3,
-  name: 'gambler',
+  name: 'character.gambler',
   type: CARD_TYPES.CHARACTER,
   effect: {
     when: 'BEFOREHAND',
@@ -34,7 +34,7 @@ export const headhunterData: ICharacter = {
   [VALUE_TYPES.ATK]: 2,
   [VALUE_TYPES.DEF]: 1,
   [VALUE_TYPES.SPD]: 2,
-  name: 'headhunter',
+  name: 'character.headhunter',
   type: CARD_TYPES.CHARACTER,
   effect: {
     when: 'INSTANT',

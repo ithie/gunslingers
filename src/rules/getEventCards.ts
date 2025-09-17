@@ -6,7 +6,7 @@ export const AMOUNT_PER_CARD = 2
 
 const cards: ICard[] = [
   {
-    name: 'Schlangenbiss',
+    name: 'card.event.snakeBite',
     type: CARD_TYPES.EVENT,
     effect: {
       when: 'BEFOREHAND',
@@ -14,7 +14,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Kopfnuss',
+    name: 'card.event.headButt',
     type: CARD_TYPES.EVENT,
     effect: {
       when: 'BEFOREHAND',
@@ -22,7 +22,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Heilung',
+    name: 'card.event.healing',
     type: CARD_TYPES.EVENT,
     effect: {
       when: 'INSTANT',
@@ -30,7 +30,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Falsches Spiel',
+    name: 'card.event.falsePlay',
     type: CARD_TYPES.EVENT,
     effect: {
       when: 'INSTANT',
@@ -38,7 +38,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Schwächung',
+    name: 'card.event.weaken',
     type: CARD_TYPES.EVENT,
     [VALUE_TYPES.ATK]: -2,
     [VALUE_TYPES.DEF]: -2,

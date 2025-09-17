@@ -1,6 +1,7 @@
 <template>
   <div class="playerZone">
-    {{ name }} {{ activeTurn }}
+    {{ name }} {{ activeTurn }} isActive? {{ isPlayerActive }}
+    {{ player.vCharacter }}
     <div class="section">
       <div class="handCardsContainer">
         <div class="cardsContainer">
@@ -10,13 +11,13 @@
             :key="index"
           >
             <Card
-              v-if="zoneCard"
+              v-if="zoneCard && zoneCard?.zones"
               :index="index"
               clickable
               :type="CARD_TYPES.ZONE"
               :name="zoneCard.name"
             >
-              <ZoneCard :zones="zoneCard.zones" :index="index" />
+              <ZoneCard v-bind="zoneCard" />
             </Card>
             <Card
               v-else
@@ -40,22 +41,17 @@
         <div class="cardsContainer">
           <div class="cardItem" v-for="(handCard, index) in hand" :key="index">
             <Card
-              v-if="handCard"
+              v-if="handCard && handCard.type"
               :index="index"
-              clickable
+              :clickable="
+                isPlayerActive && handCard.type !== CARD_TYPES.DEFENSE
+              "
               :type="handCard.type"
-              :name="handCard.name"
+              :name="isPlayerActive ? handCard.name : ''"
             >
-              <ModificationCard
-                v-if="handCard.type === CARD_TYPES.MODIFICATION"
-                v-bind="handCard"
-              />
-              <DefenseCard
-                v-else-if="handCard.type === CARD_TYPES.DEFENSE"
-                v-bind="handCard"
-              />
-              <EventCard
-                v-else-if="handCard.type === CARD_TYPES.EVENT"
+              <component
+                v-if="isPlayerActive"
+                :is="CARD_MAP[handCard.type!]"
                 v-bind="handCard"
               />
             </Card>
@@ -75,32 +71,12 @@
           :key="index"
         >
           <Card
-            v-if="stackItem?.type === CARD_TYPES.CHARACTER"
-            :type="CARD_TYPES.CHARACTER"
-            :index="index"
-          >
-            <Gunslinger v-if="stackItem?.name === 'gunslinger'" />
-            <Gambler v-if="stackItem?.name === 'gambler'" />
-            <Headhunter v-if="stackItem?.name === 'headhunter'" />
-          </Card>
-          <Card
-            v-else-if="stackItem && stackItem.type"
+            v-if="stackItem && stackItem.type"
             :name="stackItem.name"
             :type="stackItem.type"
             :index="index"
           >
-            <ModificationCard
-              v-if="stackItem.type === CARD_TYPES.MODIFICATION"
-              v-bind="stackItem"
-            />
-            <DefenseCard
-              v-else-if="stackItem.type === CARD_TYPES.DEFENSE"
-              v-bind="stackItem"
-            />
-            <EventCard
-              v-else-if="stackItem.type === CARD_TYPES.EVENT"
-              v-bind="stackItem"
-            />
+            <component :is="CARD_MAP[stackItem.type!]" v-bind="stackItem" />
           </Card>
           <Card v-else :type="CARD_TYPES.EMPTY_STACK" :index="index"></Card>
         </div>
@@ -117,17 +93,20 @@ import useGameTable from '../../composables/useGameTable'
 import ModificationCard from '../ModificationCard/ModificationCard.vue'
 import DefenseCard from '../DefenseCard/DefenseCard.vue'
 import EventCard from '../EventCard/EventCard.vue'
-import Gunslinger from '../Characters/Gunslinger.vue'
-import Gambler from '../Characters/Gambler.vue'
-import Headhunter from '../Characters/Headhunter.vue'
+import Characters from '../Characters/Characters.vue'
 
 const { index } = defineProps<{
   index: number
 }>()
 
-const { gameTable, playCards, attack, endTurn, calculateStats } = useGameTable()
+const CARD_MAP = {
+  [CARD_TYPES.EVENT]: EventCard,
+  [CARD_TYPES.MODIFICATION]: ModificationCard,
+  [CARD_TYPES.DEFENSE]: DefenseCard,
+  [CARD_TYPES.CHARACTER]: Characters,
+}
 
-// calculateStats()
+const { gameTable, playCards, attack, endTurn, calculateStats } = useGameTable()
 
 const player = computed(() => gameTable.value.players[index])
 
@@ -137,15 +116,22 @@ const zoneCards = computed(() => player.value.zoneCards)
 const boardStack = computed(() => player.value.boardStack)
 const hand = computed(() => player.value.hand)
 
+const isPlayerActive = computed(
+  () => index === gameTable.value.turnStats.activePlayerIndex,
+)
+
 const renderBoardStack = computed(() => {
   return boardStack.value
-    .map((stack, index) => {
+    .map((stack, stackIndex) => {
       const visibleStackItem: unknown[] = [
         stack.length > 0 ? stack[stack.length - 1] : [''],
       ]
-      if (index === 3) {
+      if (stackIndex === 3) {
         visibleStackItem.push({
           ...player.value.character,
+          ATK: player.value.vCharacter.ATK,
+          DEF: player.value.vCharacter.DEF,
+          SPD: player.value.vCharacter.SPD,
         })
       }
 

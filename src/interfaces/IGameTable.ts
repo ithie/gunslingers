@@ -23,11 +23,9 @@ export default interface IGameTable {
   turnStats: ITurnStats
   players: {
     name: string
-    hand: ICard[]
-    // first level: fields
-    // second level: card stack on field - last card is the active one on the stack
-    boardStack: ICard[][]
-    zoneCards: IZoneCard[]
+    hand: Array<ICard | undefined>
+    boardStack: Array<ICard | unknown>[]
+    zoneCards: Array<IZoneCard | undefined>
     character: ICharacter
     vCharacter: ICharacterStats
   }[]

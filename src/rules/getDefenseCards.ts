@@ -7,7 +7,7 @@ export const AMOUNT_PER_CARD = 3
 
 const cards: ICard[] = [
   {
-    name: 'Blocken',
+    name: 'card.defense.blocking',
     type: CARD_TYPES.DEFENSE,
     effect: {
       when: 'INSTANT',
@@ -18,7 +18,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Ducken und Rollen',
+    name: 'card.defense.duckAndRoll',
     type: CARD_TYPES.DEFENSE,
     effect: {
       when: 'INSTANT',
@@ -29,7 +29,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Gegenschuss',
+    name: 'card.defense.counterShot',
     type: CARD_TYPES.DEFENSE,
     effect: {
       when: 'INSTANT',
@@ -40,7 +40,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Querschläger',
+    name: 'card.defense.ricochet',
     type: CARD_TYPES.DEFENSE,
     effect: {
       when: 'INSTANT',
@@ -51,7 +51,7 @@ const cards: ICard[] = [
     },
   },
   {
-    name: 'Zeitverzerrung',
+    name: 'card.defense.timeDistortion',
     type: CARD_TYPES.DEFENSE,
     effect: {
       when: 'INSTANT',

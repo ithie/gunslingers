@@ -6,46 +6,46 @@ export const AMOUNT_PER_CARD = 4
 
 const cards: ICard[] = [
   {
-    name: 'Fester Griff',
+    name: 'card.modification.firmGrip',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.ATK]: 2,
   },
   {
-    name: 'Deckung',
+    name: 'card.modification.cover',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.DEF]: 2,
   },
   {
-    name: 'Schneller Ritt',
+    name: 'card.modification.rodeFaster',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.SPD]: 2,
   },
   {
-    name: 'Entfesselte Wut',
+    name: 'card.modification.unleashedRage',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.ATK]: 2,
     [VALUE_TYPES.DEF]: -1,
   },
   {
-    name: 'Stahlweste',
+    name: 'card.modification.steelVest',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.DEF]: 3,
     [VALUE_TYPES.SPD]: -2,
   },
   {
-    name: 'Flinker Finger',
+    name: 'card.modification.nimbleFinger',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.ATK]: 1,
     [VALUE_TYPES.SPD]: 1,
   },
   {
-    name: 'Umgekippter Wagen',
+    name: 'card.modification.overturnedCarriage',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.DEF]: 1,
     [VALUE_TYPES.SPD]: -1,
   },
   {
-    name: 'Leichtes Kaliber',
+    name: 'card.modification.lightCaliber',
     type: CARD_TYPES.MODIFICATION,
     [VALUE_TYPES.ATK]: -2,
     [VALUE_TYPES.SPD]: 2,

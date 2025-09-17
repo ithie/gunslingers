@@ -1,6 +1,33 @@
 {
-  "message": {
-    "hello": "Hallo Welt!",
-    "welcome": "Willkommen zu Ihrer Vue 3 App!"
+  "character": {
+    "gambler": "Glücksspieler",
+    "gunslinger": "Revolverheld",
+    "headhunter": "Kopfgeldjäger"
+  },
+  "card": {
+    "modification": {
+      "rodeFaster": "Schneller Ritt",
+      "firmGrip": "Fester Griff",
+      "steelVest": "Stahlweste",
+      "unleashedRage": "Entfesselte Wut",
+      "nimbleFinger": "Flinker Finger",
+      "overturnedCarriage": "Umgekippter Wagen",
+      "lightCaliber": "Leichtes Kaliber",
+      "cover": "Deckung"
+    },
+    "event": {
+      "weaken": "Schwächung",
+      "falsePlay": "Falsches Spiel",
+      "healing": "Heilung",
+      "headButt": "Kopfnuss",
+      "snakeBite": "Schlangenbiss"
+    },
+    "defense": {
+      "blocking": "Blocken",
+      "duckAndRoll": "Ducken und Rollen",
+      "counterShot": "Gegenschuss",
+      "ricochet": "Querschläger",
+      "timeDistortion": "Zeitverzögerung"
+    }
   }
 }

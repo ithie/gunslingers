@@ -1,6 +1,33 @@
 {
-  "message": {
-    "hello": "Hello, world!",
-    "welcome": "Welcome to your Vue 3 app!"
+  "character": {
+    "gambler": "Gabler",
+    "gunslinger": "Gunslinger",
+    "headhunter": "Headhunter"
+  },
+  "card": {
+    "modification": {
+      "rodeFaster": "Rode faster",
+      "firmGrip": "Firm grip",
+      "steelVest": "Steel vest",
+      "unleashedRage": "Unleashed rage",
+      "nimbleFinger": "Nimble finger",
+      "overturnedCarriage": "Overturned carriage",
+      "lightCaliber": "Light caliber",
+      "cover": "Cover"
+    },
+    "event": {
+      "weaken": "Weaken",
+      "falsePlay": "False play",
+      "healing": "Healing",
+      "headButt": "Headbutt",
+      "snakeBite": "Snake bite"
+    },
+    "defense": {
+      "blocking": "Blocking",
+      "duckAndRoll": "Duck and roll",
+      "counterShot": "Counter shot",
+      "ricochet": "Ricochet",
+      "timeDistortion": "Time distortion"
+    }
   }
 }

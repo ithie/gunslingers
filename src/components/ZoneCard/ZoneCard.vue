@@ -9,13 +9,13 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-const { zones, index } = defineProps<{ zones: number[]; index: number }>()
+const { zones } = defineProps<{ zones: number[] }>()
 
 const matrix: string[] = new Array(8).fill('white')
 
 const zoneMatrix = computed(() => {
   return matrix
-    .map((defaultMatrixValue, index) => {
+    .map((_, index) => {
       const returnValue = []
       if (zones.includes(index)) {
         returnValue.push('black')
