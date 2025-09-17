@@ -9,8 +9,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-
-const { zones } = defineProps<{ zones: number[] }>()
+const { zones, index } = defineProps<{ zones: number[]; index: number }>()
 
 const matrix: string[] = new Array(8).fill('white')
 

@@ -1,7 +1,15 @@
 <template>
-  <Card :type="CARD_TYPES.CHARACTER">GAMBLER</Card>
+  <div class="character" :style="{ backgroundImage: 'url(' + src + ')' }"></div>
 </template>
 <script setup lang="ts">
-import Card from '../Card/Card.vue'
-import { CARD_TYPES } from '../../enums'
+import src from './assets/gambler.png'
 </script>
+<style lang="scss">
+.character {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>

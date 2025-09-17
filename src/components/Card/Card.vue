@@ -1,5 +1,9 @@
 <template>
-  <div :class="styleClasses" :style="`height: ${height}px; width: ${width}px`">
+  <div
+    :class="styleClasses"
+    :style="`height: ${height}px; width: ${width}px`"
+    @click="onClick"
+  >
     <div class="card-container">
       <div class="name" v-if="name">{{ name }}</div>
       <div class="content"><slot /></div>
@@ -10,14 +14,40 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { CARD_TYPES } from '../../enums'
+import useCardSelect from '../../composables/useCardSelect'
 
-const { type, name } = defineProps<{ type: CARD_TYPES; name?: string }>()
+const {
+  type,
+  name,
+  clickable = false,
+  index,
+} = defineProps<{
+  type: CARD_TYPES
+  name?: string
+  clickable?: boolean
+  index: number
+}>()
+
+const { select, isSelected } = useCardSelect(
+  index,
+  type === CARD_TYPES.ZONE ? 'zoneCard' : 'handCard',
+)
+
+const onClick = () => {
+  if (clickable) {
+    select()
+  }
+}
 
 const ratio = 1.4
 const height = 150
 const width = height / ratio
 
-const styleClasses = computed(() => ['card', `type-${type}`])
+const styleClasses = computed(() => [
+  'card',
+  `type-${type}`,
+  { selected: clickable && isSelected.value },
+])
 </script>
 <style lang="scss">
 .card-container {
@@ -40,6 +70,9 @@ const styleClasses = computed(() => ['card', `type-${type}`])
     align-items: center;
     justify-content: center;
   }
+}
+.selected {
+  opacity: 0.5;
 }
 .card {
   background-color: white;

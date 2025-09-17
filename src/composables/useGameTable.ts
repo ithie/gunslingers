@@ -22,6 +22,12 @@ const gameTable: Ref<IGameTable> = ref({
       maxZoneCards: 4,
     },
   },
+  activeTurn: {
+    zoneCard: null,
+    handCard: null,
+    cardsPlayed: false,
+    attacked: false,
+  },
   turnStats: {
     turnStarted: false,
     currentTurnStep: TURN_STEP.BEGINNING,
@@ -58,11 +64,47 @@ export default () => {
         },
       }))
     },
+    setZoneCard: (cardIndex: number) => {
+      const activePlayerIndex = gameTable.value.turnStats.activePlayerIndex
+      const playerData = gameTable.value.players[activePlayerIndex]
+
+      gameTable.value.activeTurn.zoneCard = cardIndex
+    },
+    setHandCard: (cardIndex: number) => {
+      const activePlayerIndex = gameTable.value.turnStats.activePlayerIndex
+      const playerData = gameTable.value.players[activePlayerIndex]
+
+      gameTable.value.activeTurn.handCard = cardIndex
+    },
     playCharacterEffect: (playerIndex: number) => {
       // todo: play effect of character
     },
-    playCard: (card: ICard, playerIndex: number, position: number) => {
-      gameTable.value.players[playerIndex].boardStack[position].push(card)
+    endTurn: () => {},
+    attack: () => {
+      // gameTable.value.activeTurn.attacked: false,
+    },
+    playCards: () => {
+      const { zoneCard, handCard } = gameTable.value.activeTurn
+
+      if (zoneCard !== null && handCard !== null) {
+        const currentPlayer =
+          gameTable.value.players[gameTable.value.turnStats.activePlayerIndex]
+
+        const boardStackTarget = currentPlayer.zoneCards[zoneCard!].zones[0]
+        const boardStackCard = currentPlayer.hand[handCard!]
+
+        gameTable.value.players[
+          gameTable.value.turnStats.activePlayerIndex
+        ].boardStack[boardStackTarget].push(currentPlayer.hand[handCard!])
+
+        delete currentPlayer.zoneCards[zoneCard!]
+        delete currentPlayer.hand[handCard!]
+
+        gameTable.value.activeTurn.zoneCard = null
+        gameTable.value.activeTurn.handCard = null
+
+        gameTable.value.activeTurn.cardsPlayed = true
+      }
     },
     calculateStats: () => {
       for (

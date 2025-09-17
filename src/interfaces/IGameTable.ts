@@ -14,6 +14,12 @@ export default interface IGameTable {
       maxZoneCards: number // Anzahl der vor dem Spieler liegenden Karten
     }
   }
+  activeTurn: {
+    zoneCard: number | null
+    handCard: number | null
+    cardsPlayed: boolean
+    attacked: boolean
+  }
   turnStats: ITurnStats
   players: {
     name: string
