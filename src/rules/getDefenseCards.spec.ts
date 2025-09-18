@@ -8,42 +8,78 @@ describe('getDefenseCards', () => {
     expect(draftDeck).toHaveLength(15)
 
     expect(JSON.parse(JSON.stringify(draftDeck))).toEqual([
-      { name: 'Blocken', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Blocken', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Blocken', type: 'DEFENSE', effect: { when: 'INSTANT' } },
       {
-        name: 'Ducken und Rollen',
+        name: 'card.defense.blocking',
         type: 'DEFENSE',
         effect: { when: 'INSTANT' },
       },
       {
-        name: 'Ducken und Rollen',
+        name: 'card.defense.blocking',
         type: 'DEFENSE',
         effect: { when: 'INSTANT' },
       },
       {
-        name: 'Ducken und Rollen',
-        type: 'DEFENSE',
-        effect: { when: 'INSTANT' },
-      },
-      { name: 'Gegenschuss', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Gegenschuss', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Gegenschuss', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Querschläger', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Querschläger', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      { name: 'Querschläger', type: 'DEFENSE', effect: { when: 'INSTANT' } },
-      {
-        name: 'Zeitverzerrung',
+        name: 'card.defense.blocking',
         type: 'DEFENSE',
         effect: { when: 'INSTANT' },
       },
       {
-        name: 'Zeitverzerrung',
+        name: 'card.defense.duckAndRoll',
         type: 'DEFENSE',
         effect: { when: 'INSTANT' },
       },
       {
-        name: 'Zeitverzerrung',
+        name: 'card.defense.duckAndRoll',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.duckAndRoll',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.counterShot',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.counterShot',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.counterShot',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.ricochet',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.ricochet',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.ricochet',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.timeDistortion',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.timeDistortion',
+        type: 'DEFENSE',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.defense.timeDistortion',
         type: 'DEFENSE',
         effect: { when: 'INSTANT' },
       },

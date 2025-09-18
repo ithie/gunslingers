@@ -1,8 +1,9 @@
 <template>
-  <div style="position: relative">
-    <Gunslinger v-if="name === 'character.gunslinger'" />
-    <Gambler v-if="name === 'character.gambler'" />
-    <Headhunter v-if="name === 'character.headhunter'" />
+  <div style="height: 100%; width: 100%; position: relative">
+    <div
+      class="character"
+      :style="{ backgroundImage: 'url(' + imgSrc + ')' }"
+    ></div>
     <div class="stats">
       <div>HP: {{ HP }}</div>
       <div>ATK: {{ ATK }}</div>
@@ -12,21 +13,30 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Gunslinger from './Gunslinger.vue'
-import Gambler from './Gambler.vue'
-import Headhunter from './Headhunter.vue'
 import { CARD_TYPES } from '../../enums'
 import IEffect from '../../interfaces/IEffect'
+import gunslingerImg from './assets/gunslinger.png'
+import gamblerImg from './assets/gambler.png'
+import headhunterImg from './assets/headhunter.png'
+import { computed } from 'vue'
 
-defineProps<{
+const { name } = defineProps<{
   name: string
   HP: number
   ATK?: number
   DEF?: number
   SPD?: number
   type: CARD_TYPES
-  effect: IEffect
+  effect?: IEffect
 }>()
+
+const imgMap: Record<string, string> = {
+  'character.gunslinger': gunslingerImg,
+  'character.gambler': gamblerImg,
+  'character.headhunter': headhunterImg,
+}
+
+const imgSrc = computed(() => imgMap[name])
 </script>
 <style lang="scss">
 .stats {
@@ -43,5 +53,12 @@ defineProps<{
     background-color: white;
     opacity: 0.8;
   }
+}
+.character {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>

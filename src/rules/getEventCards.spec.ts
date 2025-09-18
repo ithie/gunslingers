@@ -9,23 +9,59 @@ describe('getEventCards', () => {
 
     expect(JSON.parse(JSON.stringify(draftDeck))).toEqual([
       {
-        name: 'Schlangenbiss',
+        name: 'card.event.snakeBite',
         type: 'EVENT',
         effect: { when: 'BEFOREHAND' },
       },
       {
-        name: 'Schlangenbiss',
+        name: 'card.event.snakeBite',
         type: 'EVENT',
         effect: { when: 'BEFOREHAND' },
       },
-      { name: 'Kopfnuss', type: 'EVENT', effect: { when: 'BEFOREHAND' } },
-      { name: 'Kopfnuss', type: 'EVENT', effect: { when: 'BEFOREHAND' } },
-      { name: 'Heilung', type: 'EVENT', effect: { when: 'INSTANT' } },
-      { name: 'Heilung', type: 'EVENT', effect: { when: 'INSTANT' } },
-      { name: 'Falsches Spiel', type: 'EVENT', effect: { when: 'INSTANT' } },
-      { name: 'Falsches Spiel', type: 'EVENT', effect: { when: 'INSTANT' } },
-      { name: 'Schwächung', type: 'EVENT', ATK: -2, DEF: -2, SPD: -2 },
-      { name: 'Schwächung', type: 'EVENT', ATK: -2, DEF: -2, SPD: -2 },
+      {
+        name: 'card.event.headButt',
+        type: 'EVENT',
+        effect: { when: 'BEFOREHAND' },
+      },
+      {
+        name: 'card.event.headButt',
+        type: 'EVENT',
+        effect: { when: 'BEFOREHAND' },
+      },
+      {
+        name: 'card.event.healing',
+        type: 'EVENT',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.event.healing',
+        type: 'EVENT',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.event.falsePlay',
+        type: 'EVENT',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.event.falsePlay',
+        type: 'EVENT',
+        effect: { when: 'INSTANT' },
+      },
+      {
+        name: 'card.event.weaken',
+        type: 'EVENT',
+        ATK: -2,
+        DEF: -2,
+        SPD: -2,
+      },
+      {
+        name: 'card.event.weaken',
+        type: 'EVENT',
+        ATK: -2,
+        DEF: -2,
+        SPD: -2,
+      },
     ])
   })
 })
