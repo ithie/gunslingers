@@ -1,7 +1,6 @@
 <template>
   <div class="playerZone">
     {{ name }} {{ activeTurn }} isActive? {{ isPlayerActive }}
-    {{ player.vCharacter }}
     <div class="section">
       <div class="handCardsContainer">
         <div class="cardsContainer">

@@ -9,6 +9,7 @@ const cards: ICard[] = [
   {
     name: 'card.defense.blocking',
     type: CARD_TYPES.DEFENSE,
+    ruleLabel: 'card.defense.blockingRule',
     effect: {
       when: 'INSTANT',
       condition: (characterStats: ICharacterStats) => {
@@ -20,6 +21,7 @@ const cards: ICard[] = [
   {
     name: 'card.defense.duckAndRoll',
     type: CARD_TYPES.DEFENSE,
+    ruleLabel: 'card.defense.duckAndRoleRule',
     effect: {
       when: 'INSTANT',
       condition: (characterStats: ICharacterStats) => {
@@ -31,6 +33,7 @@ const cards: ICard[] = [
   {
     name: 'card.defense.counterShot',
     type: CARD_TYPES.DEFENSE,
+    ruleLabel: 'card.defense.counterShotRule',
     effect: {
       when: 'INSTANT',
       condition: (characterStats: ICharacterStats) => {
@@ -42,6 +45,7 @@ const cards: ICard[] = [
   {
     name: 'card.defense.ricochet',
     type: CARD_TYPES.DEFENSE,
+    ruleLabel: 'card.defense.ricochetRule',
     effect: {
       when: 'INSTANT',
       condition: (characterStats: ICharacterStats) => {
@@ -53,6 +57,7 @@ const cards: ICard[] = [
   {
     name: 'card.defense.timeDistortion',
     type: CARD_TYPES.DEFENSE,
+    ruleLabel: 'card.defense.timeDistortionRule',
     effect: {
       when: 'INSTANT',
       condition: (oponent: ICharacterStats, own: ICharacterStats) => {

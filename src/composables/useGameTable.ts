@@ -5,8 +5,6 @@ import getZoneCardsDraftDeck from '../rules/getZoneCardsDraftDeck'
 import ICharacter from '../interfaces/ICharacter'
 import { CARD_TYPES, VALUE_TYPES } from '../enums'
 import { TURN_STEP } from '../interfaces/ITurnStats'
-import ICard from '../interfaces/ICard'
-import IZoneCard from '../interfaces/IZoneCard'
 
 const getNextPlayer = () => {
   let nextPlayer = gameTable.value.turnStats.activePlayerIndex + 1

@@ -29,7 +29,9 @@ init(
 
 const zoneDraftDeckLeft = computed(() => gameTable.value.zoneDraftDeck.length)
 const draftDeckLeft = computed(() => gameTable.value.draftDeck.length)
-const nextCardOnDraftDeck = computed(() => gameTable.value.draftDeck[0].type)
+const nextCardOnDraftDeck = computed(
+  () => gameTable.value.draftDeck[gameTable.value.draftDeck.length - 1].type,
+)
 
 const currentPlayer = computed(
   () => gameTable.value.turnStats.activePlayerIndex,
@@ -44,5 +46,10 @@ const players = computed(() => gameTable.value.players)
 
 .currentPlayer {
   width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>

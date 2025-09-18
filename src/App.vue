@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <button @click="setLocale('de')">Deutsch</button>
     <button @click="setLocale('en')">English</button>
     <GameTable />
@@ -37,9 +37,16 @@ h1 {
 p {
   color: #42b983;
   text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
 button {
   margin: 0 5px;
+}
+
+.app {
+  padding: 0;
+  margin: 0;
 }
 </style>

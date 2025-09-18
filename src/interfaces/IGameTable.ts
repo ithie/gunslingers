@@ -28,5 +28,6 @@ export default interface IGameTable {
     zoneCards: Array<IZoneCard | undefined>
     character: ICharacter
     vCharacter: ICharacterStats
+    canAttack: boolean
   }[]
 }

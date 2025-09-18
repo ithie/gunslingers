@@ -18,16 +18,25 @@
     "event": {
       "weaken": "Schwächung",
       "falsePlay": "Falsches Spiel",
+      "falsePlayRule": "2 Karten abwerfen",
       "healing": "Heilung",
+      "healingRule": "Einmalig 2 HP",
       "headButt": "Kopfnuss",
-      "snakeBite": "Schlangenbiss"
+      "headButtRule": "Kein Angriff möglich",
+      "snakeBite": "Schlangenbiss",
+      "snakeBiteRule": "Beginn jeder Runde 1 Schaden"
     },
     "defense": {
       "blocking": "Blocken",
+      "blockingRule": "Schaden -2",
       "duckAndRoll": "Ducken und Rollen",
+      "duckAndRoleRule": "Der Angriff läuft ins Leere",
       "counterShot": "Gegenschuss",
+      "counterShotRule": "Angreifer erhält 1 Schaden",
       "ricochet": "Querschläger",
-      "timeDistortion": "Zeitverzögerung"
+      "ricochetRule": "Schaden wird 50:50 aufgeteilt",
+      "timeDistortion": "Zeitverzögerung",
+      "timeDistortionRule": "Verhindert den Angriff, wenn der Gegner einen +2 höheren SPD-Wert hat."
     }
   }
 }
