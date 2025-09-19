@@ -1,6 +1,5 @@
 import ICard from './ICard'
-import ICharacter from './ICharacter'
-import ICharacterStats from './ICharacterStats'
+import IPlayer from './IPlayer'
 import ITurnStats from './ITurnStats'
 import IZoneCard from './IZoneCard'
 
@@ -14,6 +13,7 @@ export default interface IGameTable {
       maxZoneCards: number // Anzahl der vor dem Spieler liegenden Karten
     }
   }
+  gameEnds: boolean
   activeTurn: {
     zoneCard: number | null
     handCard: number | null
@@ -21,13 +21,5 @@ export default interface IGameTable {
     attacked: boolean
   }
   turnStats: ITurnStats
-  players: {
-    name: string
-    hand: Array<ICard | undefined>
-    boardStack: Array<ICard | unknown>[]
-    zoneCards: Array<IZoneCard | undefined>
-    character: ICharacter
-    vCharacter: ICharacterStats
-    canAttack: boolean
-  }[]
+  players: IPlayer[]
 }

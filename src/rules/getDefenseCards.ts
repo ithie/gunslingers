@@ -10,61 +10,31 @@ const cards: ICard[] = [
     name: 'card.defense.blocking',
     type: CARD_TYPES.DEFENSE,
     ruleLabel: 'card.defense.blockingRule',
-    effect: {
-      when: 'INSTANT',
-      condition: (characterStats: ICharacterStats) => {
-        return characterStats[VALUE_TYPES.SPD] >= 3
-      },
-      execution: (data) => data, // Reduziert den eingehenden Schaden um 2
-    },
+    effect: (data) => data, // Reduziert den eingehenden Schaden um 2
   },
   {
     name: 'card.defense.duckAndRoll',
     type: CARD_TYPES.DEFENSE,
     ruleLabel: 'card.defense.duckAndRoleRule',
-    effect: {
-      when: 'INSTANT',
-      condition: (characterStats: ICharacterStats) => {
-        return characterStats[VALUE_TYPES.SPD] >= 3
-      },
-      execution: (data) => data, // Der Angriff läuft ins Leere.
-    },
+    effect: (data) => data, // Der Angriff läuft ins Leere.
   },
   {
     name: 'card.defense.counterShot',
     type: CARD_TYPES.DEFENSE,
     ruleLabel: 'card.defense.counterShotRule',
-    effect: {
-      when: 'INSTANT',
-      condition: (characterStats: ICharacterStats) => {
-        return characterStats[VALUE_TYPES.SPD] >= 3
-      },
-      execution: (data) => data, // Fügt dem Angreifer 1 Schaden zu
-    },
+    effect: (data) => data, // Fügt dem Angreifer 1 Schaden zu
   },
   {
     name: 'card.defense.ricochet',
     type: CARD_TYPES.DEFENSE,
     ruleLabel: 'card.defense.ricochetRule',
-    effect: {
-      when: 'INSTANT',
-      condition: (characterStats: ICharacterStats) => {
-        return characterStats[VALUE_TYPES.SPD] >= 3
-      },
-      execution: (data) => data, // Schaden wird auf Angreifer und Verteidiger 50:50 aufgeteilt (aufgerundet)
-    },
+    effect: (data) => data, // Schaden wird auf Angreifer und Verteidiger 50:50 aufgeteilt (aufgerundet)
   },
   {
     name: 'card.defense.timeDistortion',
     type: CARD_TYPES.DEFENSE,
     ruleLabel: 'card.defense.timeDistortionRule',
-    effect: {
-      when: 'INSTANT',
-      condition: (oponent: ICharacterStats, own: ICharacterStats) => {
-        return oponent[VALUE_TYPES.SPD] + 2 > own[VALUE_TYPES.SPD]
-      },
-      execution: (data) => data, // Verhindert den Angriff, wenn der Gegner einen +2 höheren SPD-Wert hat.
-    },
+    effect: (data) => data, // Verhindert den Angriff, wenn der Gegner einen +2 höheren SPD-Wert hat.
   },
 ]
 

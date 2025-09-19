@@ -1,4 +1,7 @@
 {
+  "player": {
+    "won": "Player {0} wins!"
+  },
   "character": {
     "gambler": "Gabler",
     "gunslinger": "Gunslinger",

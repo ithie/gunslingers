@@ -9,37 +9,21 @@ const cards: ICard[] = [
     name: 'card.event.snakeBite',
     type: CARD_TYPES.EVENT,
     ruleLabel: 'card.event.snakeBiteRule',
-    effect: {
-      when: 'BEFOREHAND',
-      execution: (data) => data, // Der gegnerische Charakter erleidet zu Beginn jeder Runde 1 Schaden
-    },
   },
   {
     name: 'card.event.headButt',
     type: CARD_TYPES.EVENT,
     ruleLabel: 'card.event.headButtRule',
-    effect: {
-      when: 'BEFOREHAND',
-      execution: (data) => data, // Der gegnerische Charakter kann nicht angreifen
-    },
   },
   {
     name: 'card.event.healing',
     type: CARD_TYPES.EVENT,
     ruleLabel: 'card.event.healingRule',
-    effect: {
-      when: 'INSTANT',
-      execution: (data) => data, // Heilt EINMALIG den eigenen Charakter um 2 Lebenspunkte, bis zum Startwert
-    },
   },
   {
     name: 'card.event.falsePlay',
     type: CARD_TYPES.EVENT,
     ruleLabel: 'card.event.falsePlayRule',
-    effect: {
-      when: 'INSTANT',
-      execution: (data) => data, // Der Gegner muss einmalig 2 Karten ablegen
-    },
   },
   {
     name: 'card.event.weaken',

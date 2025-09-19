@@ -4,9 +4,10 @@
   <div>
     Nachziehstapel: {{ draftDeckLeft }} => Nächste: {{ nextCardOnDraftDeck }}
   </div>
-  <div class="table">
+  <div class="table" v-if="gameRunning">
     <PlayerZone v-for="(_, index) in players" :key="index" :index="index" />
   </div>
+  <div v-else>{{ $t('player.won', [playerName]) }}</div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
@@ -27,6 +28,8 @@ init(
   },
 )
 
+const gameRunning = computed(() => !gameTable.value.gameEnds)
+
 const zoneDraftDeckLeft = computed(() => gameTable.value.zoneDraftDeck.length)
 const draftDeckLeft = computed(() => gameTable.value.draftDeck.length)
 const nextCardOnDraftDeck = computed(
@@ -37,6 +40,10 @@ const currentPlayer = computed(
   () => gameTable.value.turnStats.activePlayerIndex,
 )
 const players = computed(() => gameTable.value.players)
+const playerName = computed(
+  () =>
+    gameTable.value.players[gameTable.value.turnStats.activePlayerIndex].name,
+)
 </script>
 
 <style lang="scss">

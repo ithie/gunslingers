@@ -1,5 +1,5 @@
 import { CARD_TYPES, VALUE_TYPES } from '../enums'
-import IEffect from './IEffect'
+import { type Effect } from './IEffect'
 
 export default interface ICharacter {
   name: string
@@ -8,5 +8,6 @@ export default interface ICharacter {
   [VALUE_TYPES.ATK]: number
   [VALUE_TYPES.DEF]: number
   [VALUE_TYPES.SPD]: number
-  effect: IEffect
+  effect: Effect
+  effectLabel: string
 }

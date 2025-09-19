@@ -1,5 +1,8 @@
+import { Ref } from 'vue'
 import { CARD_TYPES, VALUE_TYPES } from '../enums'
 import ICharacter from '../interfaces/ICharacter'
+import IGameTable from '../interfaces/IGameTable'
+import ICard from '../interfaces/ICard'
 
 export const gunslingerData: ICharacter = {
   [VALUE_TYPES.HP]: 10,
@@ -8,11 +11,18 @@ export const gunslingerData: ICharacter = {
   [VALUE_TYPES.SPD]: 1,
   name: 'character.gunslinger',
   type: CARD_TYPES.CHARACTER,
-  effect: {
-    when: 'BEFOREHAND',
-    label: '',
-    execution: (data) => data, // tausche am Anfang zwei Karten gegen einmalig +2
+  effect: (data) => {
+    data.own.hand = data.own.hand.map((card?: ICard) => {
+      if (card) {
+        data.own.tmpStats = {
+          ATK: 2,
+        }
+        return undefined
+      }
+      return card
+    })
   },
+  effectLabel: 'Tausche am Anfang zwei Karten gegen einmalig +2',
 }
 
 export const gamblerData: ICharacter = {
@@ -22,11 +32,11 @@ export const gamblerData: ICharacter = {
   [VALUE_TYPES.SPD]: 3,
   name: 'character.gambler',
   type: CARD_TYPES.CHARACTER,
-  effect: {
-    when: 'BEFOREHAND',
-    label: '',
-    execution: (data) => data, // tausche am Anfange alle Karten gegen maximal 5 neue - runde ist sofort beendet
+  effect: (data) => {
+    //
   },
+  effectLabel:
+    'tausche am Anfange alle Karten gegen maximal 5 neue - runde ist sofort beendet',
 }
 
 export const headhunterData: ICharacter = {
@@ -36,9 +46,9 @@ export const headhunterData: ICharacter = {
   [VALUE_TYPES.SPD]: 2,
   name: 'character.headhunter',
   type: CARD_TYPES.CHARACTER,
-  effect: {
-    when: 'INSTANT',
-    label: '',
-    execution: (data) => data, // Wenn Du erfolgreich angreifst, kann der Gegner in der nächsten Runde keine Abwehrkarten spielen.
+  effect: (data) => {
+    //
   },
+  effectLabel:
+    'Wenn Du erfolgreich angreifst, kann der Gegner in der nächsten Runde keine Abwehrkarten spielen.',
 }

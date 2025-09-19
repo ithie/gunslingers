@@ -1,6 +1,5 @@
 <template>
   <div class="playerZone">
-    {{ name }} {{ activeTurn }} isActive? {{ isPlayerActive }}
     <div class="section">
       <div class="handCardsContainer">
         <div class="cardsContainer">
@@ -30,7 +29,7 @@
           <button v-if="!activeTurn.cardsPlayed" @click="playCards">
             Karten legen
           </button>
-          <button v-if="activeTurn.cardsPlayed" @click="attack">
+          <button v-if="activeTurn.cardsPlayed && canAttack" @click="attack">
             Angreifen
           </button>
           <button v-if="activeTurn.cardsPlayed" @click="endTurn">
@@ -93,6 +92,7 @@ import ModificationCard from '../ModificationCard/ModificationCard.vue'
 import DefenseCard from '../DefenseCard/DefenseCard.vue'
 import EventCard from '../EventCard/EventCard.vue'
 import Characters from '../Characters/Characters.vue'
+import ICard from '../../interfaces/ICard'
 
 const { index } = defineProps<{
   index: number
@@ -105,7 +105,7 @@ const CARD_MAP = {
   [CARD_TYPES.CHARACTER]: Characters,
 }
 
-const { gameTable, playCards, attack, endTurn, calculateStats } = useGameTable()
+const { gameTable, playCards, attack, endTurn } = useGameTable()
 
 const player = computed(() => gameTable.value.players[index])
 
@@ -119,6 +119,25 @@ const isPlayerActive = computed(
   () => index === gameTable.value.turnStats.activePlayerIndex,
 )
 
+const canAttack = computed(() => {
+  let noHeadButt = true
+  gameTable.value.players[
+    gameTable.value.turnStats.activePlayerIndex
+  ].boardStack.forEach((handCard: unknown[]) => {
+    if (
+      handCard &&
+      handCard.length > 0 &&
+      (handCard[0] as ICard)?.type === CARD_TYPES.EVENT
+    ) {
+      if ((handCard[0] as ICard)?.name === 'card.event.headButt') {
+        noHeadButt = false
+      }
+    }
+  })
+
+  return noHeadButt
+})
+
 const renderBoardStack = computed(() => {
   return boardStack.value
     .map((stack, stackIndex) => {
@@ -128,6 +147,7 @@ const renderBoardStack = computed(() => {
       if (stackIndex === 3) {
         visibleStackItem.push({
           ...player.value.character,
+          HP: player.value.vCharacter.HP,
           ATK: player.value.vCharacter.ATK,
           DEF: player.value.vCharacter.DEF,
           SPD: player.value.vCharacter.SPD,
