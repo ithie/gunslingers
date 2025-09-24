@@ -18,11 +18,9 @@ Dieses Projekt dient der Evaluierung der Regeln und Anpassungen des sich in der 
 
 3. **Für die Produktion bauen:**
 
-   ````bash
+   ```bash
    npm run build
    ```
-
-   ````
 
 4. **Unit-Tests ausführen:**
 
