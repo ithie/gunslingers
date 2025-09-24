@@ -21,15 +21,18 @@ const {
   name,
   clickable = false,
   index,
+  playerIndex,
 } = defineProps<{
   type: CARD_TYPES
   name?: string
   clickable?: boolean
   index: number
+  playerIndex: number
 }>()
 
 const { select, isSelected } = useCardSelect(
   index,
+  playerIndex,
   type === CARD_TYPES.ZONE ? 'zoneCard' : 'handCard',
 )
 

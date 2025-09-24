@@ -13,11 +13,12 @@ export default interface IGameTable {
       maxZoneCards: number // Anzahl der vor dem Spieler liegenden Karten
     }
   }
+  showDamage?: {
+    damage: number
+    next: (defenseCard?: ICard) => void
+  }
   gameEnds: boolean
   activeTurn: {
-    zoneCard: number | null
-    handCard: number | null
-    cardsPlayed: boolean
     attacked: boolean
   }
   turnStats: ITurnStats

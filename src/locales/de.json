@@ -2,6 +2,10 @@
   "player": {
     "won": "Spieler {0} hat gewonnen!"
   },
+  "damage": "Schaden",
+  "defend": "Verteidigung bestätigen",
+  "noDefense": "Nicht abwehren",
+  "endTurn": "Zug beenden",
   "character": {
     "gambler": "Glücksspieler",
     "gunslinger": "Revolverheld",

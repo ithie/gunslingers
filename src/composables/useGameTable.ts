@@ -6,6 +6,7 @@ import ICharacter from '../interfaces/ICharacter'
 import { CARD_TYPES, VALUE_TYPES } from '../enums'
 import { TURN_STEP } from '../interfaces/ITurnStats'
 import ICard from '../interfaces/ICard'
+import IPlayer from '../interfaces/IPlayer'
 
 const getNextPlayer = () => {
   let nextPlayer = gameTable.value.turnStats.activePlayerIndex + 1
@@ -17,11 +18,12 @@ const getNextPlayer = () => {
 
 const drawNewCards = (nextPlayer: number) => {
   const newCardDrawn = gameTable.value.draftDeck.pop()
+  const currentMaxHand = gameTable.value.players[nextPlayer].currentMaxHand
 
   if (
     newCardDrawn &&
     gameTable.value.players[nextPlayer].hand.filter((item) => item).length !==
-      gameTable.value.players[nextPlayer].hand.length
+      currentMaxHand
   ) {
     gameTable.value.players[nextPlayer].hand = gameTable.value.players[
       nextPlayer
@@ -36,7 +38,7 @@ const drawNewCards = (nextPlayer: number) => {
   if (
     gameTable.value.players[nextPlayer].hand.filter(
       (item) => item && item.type === CARD_TYPES.DEFENSE,
-    ).length === 5
+    ).length === currentMaxHand
   ) {
     gameTable.value.players[nextPlayer].hand = gameTable.value.players[
       nextPlayer
@@ -58,20 +60,88 @@ const attack = () => {
     gameTable.value.players[nextPlayer].vCharacter.DEF
 
   if (damage > 0) {
-    gameTable.value.players[nextPlayer].vCharacter.HP =
-      gameTable.value.players[nextPlayer].vCharacter.HP - damage
-  }
+    gameTable.value.showDamage = {
+      damage,
+      next: (defenseCard?: ICard) => {
+        // @todo evaluate if defense-card was played
 
-  if (gameTable.value.players[nextPlayer].vCharacter.HP <= 0) {
-    gameTable.value.players[nextPlayer].vCharacter.HP === 0
-    gameTable.value.gameEnds = true
+        let calculatedDamage = damage
+        if (defenseCard) {
+          // @todo evaluate card
+          if (defenseCard.name === 'card.defense.ricochetRule') {
+            calculatedDamage = Math.round(calculatedDamage / 2)
+
+            gameTable.value.players[nextPlayer].vCharacter.HP =
+              gameTable.value.players[nextPlayer].vCharacter.HP -
+              calculatedDamage
+
+            gameTable.value.players[activePlayer].vCharacter.HP =
+              gameTable.value.players[activePlayer].vCharacter.HP -
+              calculatedDamage
+          } else if (defenseCard.name === 'card.defense.counterShotRule') {
+            gameTable.value.players[nextPlayer].vCharacter.HP =
+              gameTable.value.players[nextPlayer].vCharacter.HP -
+              calculatedDamage
+
+            gameTable.value.players[activePlayer].vCharacter.HP =
+              gameTable.value.players[activePlayer].vCharacter.HP - 1
+          } else if (defenseCard.name === 'card.defense.duckAndRoll') {
+            // no further handling - no damage
+          } else if (defenseCard.name === 'card.defense.blocking') {
+            calculatedDamage = calculatedDamage - 2
+
+            if (calculatedDamage > 0) {
+              gameTable.value.players[nextPlayer].vCharacter.HP =
+                gameTable.value.players[nextPlayer].vCharacter.HP -
+                calculatedDamage
+            }
+          } else if (defenseCard.name === 'card.defense.timeDistortion') {
+            if (
+              gameTable.value.players[activePlayer].vCharacter.SPD -
+                gameTable.value.players[nextPlayer].vCharacter.SPD <
+              2
+            ) {
+              gameTable.value.players[nextPlayer].vCharacter.HP =
+                gameTable.value.players[nextPlayer].vCharacter.HP -
+                calculatedDamage
+            }
+          }
+        } else {
+          gameTable.value.players[nextPlayer].vCharacter.HP =
+            gameTable.value.players[nextPlayer].vCharacter.HP - damage
+        }
+
+        calculateStats()
+
+        gameTable.value.turnStats.activePlayerIndex
+
+        gameTable.value.showDamage = undefined
+
+        if (
+          gameTable.value.players[nextPlayer].vCharacter.HP <= 0 ||
+          gameTable.value.players[activePlayer].vCharacter.HP <= 0
+        ) {
+          gameTable.value.players[nextPlayer].vCharacter.HP === 0
+          gameTable.value.players[activePlayer].vCharacter.HP === 0
+          gameTable.value.gameEnds = true
+        } else {
+          endTurn()
+        }
+      },
+    }
   } else {
     endTurn()
   }
 }
 
 const endTurn = () => {
-  gameTable.value.activeTurn.cardsPlayed = false
+  gameTable.value.showDamage = undefined
+
+  gameTable.value.players.forEach((player: IPlayer) => {
+    player.cardsPlayed = false
+    player.selectedCards.handCard = null
+    player.selectedCards.zoneCard = null
+  })
 
   gameTable.value.players[
     gameTable.value.turnStats.activePlayerIndex
@@ -206,8 +276,11 @@ const calculateStats = () => {
   }
 }
 
+const INITIAL_MAX_HAND = 7
+
 export default () => {
   return {
+    getNextPlayer,
     init: (
       players: { name: string; character: ICharacter }[],
       additionalRules: {
@@ -218,7 +291,16 @@ export default () => {
       gameTable.value.rules = { ...additionalRules }
       gameTable.value.players = players.map((player) => ({
         name: player.name,
-        hand: gameTable.value.draftDeck.splice(-5, 5),
+        currentMaxHand: INITIAL_MAX_HAND,
+        hand: gameTable.value.draftDeck.splice(
+          INITIAL_MAX_HAND * -1,
+          INITIAL_MAX_HAND,
+        ),
+        cardsPlayed: false,
+        selectedCards: {
+          zoneCard: null,
+          handCard: null,
+        },
         boardStack: [[], [], [], [], [], [], [], []],
         zoneCards: gameTable.value.zoneDraftDeck.splice(-5, 5),
         character: player.character,
@@ -228,27 +310,26 @@ export default () => {
           [VALUE_TYPES.DEF]: player.character.DEF,
           [VALUE_TYPES.SPD]: player.character.SPD,
         },
-        currentMaxHand: 7,
         tmpStats: {},
       }))
     },
-    setZoneCard: (cardIndex: number) => {
-      gameTable.value.activeTurn.zoneCard = cardIndex
+    setZoneCard: (cardIndex: number, playerIndex: number) => {
+      gameTable.value.players[playerIndex].selectedCards.zoneCard = cardIndex
     },
-    setHandCard: (cardIndex: number) => {
-      gameTable.value.activeTurn.handCard = cardIndex
+    setHandCard: (cardIndex: number, playerIndex: number) => {
+      gameTable.value.players[playerIndex].selectedCards.handCard = cardIndex
     },
     playCharacterEffect: (playerIndex: number) => {
       // todo: play effect of character
     },
     endTurn,
     attack,
-    playCards: () => {
-      const { zoneCard, handCard } = gameTable.value.activeTurn
+    playCards: (playerIndex: number) => {
+      const { zoneCard, handCard } =
+        gameTable.value.players[playerIndex].selectedCards
 
       if (zoneCard !== null && handCard !== null) {
-        const activePlayerIndex = gameTable.value.turnStats.activePlayerIndex
-        const currentPlayer = gameTable.value.players[activePlayerIndex]
+        const currentPlayer = gameTable.value.players[playerIndex]
 
         const boardStackTarget = currentPlayer.zoneCards[zoneCard!]!.zones[0]
 
@@ -256,19 +337,19 @@ export default () => {
         const targetPlayer =
           cardToPlace && cardToPlace.type === CARD_TYPES.EVENT
             ? getNextPlayer()
-            : activePlayerIndex
+            : playerIndex
 
         if (cardToPlace?.type === CARD_TYPES.EVENT) {
           if (cardToPlace?.name === 'card.event.healing') {
-            gameTable.value.players[activePlayerIndex].vCharacter.HP =
-              gameTable.value.players[activePlayerIndex].vCharacter.HP + 2
+            gameTable.value.players[playerIndex].vCharacter.HP =
+              gameTable.value.players[playerIndex].vCharacter.HP + 2
 
             if (
-              gameTable.value.players[activePlayerIndex].vCharacter.HP >
-              gameTable.value.players[activePlayerIndex].character.HP
+              gameTable.value.players[playerIndex].vCharacter.HP >
+              gameTable.value.players[playerIndex].character.HP
             ) {
-              gameTable.value.players[activePlayerIndex].vCharacter.HP =
-                gameTable.value.players[activePlayerIndex].character.HP
+              gameTable.value.players[playerIndex].vCharacter.HP =
+                gameTable.value.players[playerIndex].character.HP
             }
           }
         }
@@ -280,10 +361,12 @@ export default () => {
         currentPlayer.zoneCards[zoneCard!] = undefined
         currentPlayer.hand[handCard!] = undefined
 
-        gameTable.value.activeTurn.zoneCard = null
-        gameTable.value.activeTurn.handCard = null
+        gameTable.value.players[playerIndex].selectedCards = {
+          zoneCard: null,
+          handCard: null,
+        }
 
-        gameTable.value.activeTurn.cardsPlayed = true
+        gameTable.value.players[playerIndex].cardsPlayed = true
 
         calculateStats()
       }

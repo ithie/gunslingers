@@ -1,10 +1,11 @@
-import IEffect from './IEffect'
+import { type Effect } from './IEffect'
 
 export enum TURN_STEP {
   BEGINNING,
   CARDSDRAWN,
   CARDSPLACED,
   ATTACK,
+  DEFEND,
 }
 
 export default interface ITurnStats {
@@ -15,10 +16,11 @@ export default interface ITurnStats {
     | Record<
         string,
         {
-          [TURN_STEP.BEGINNING]?: IEffect[]
-          [TURN_STEP.CARDSDRAWN]?: IEffect[]
-          [TURN_STEP.CARDSPLACED]?: IEffect[]
-          [TURN_STEP.ATTACK]?: IEffect[]
+          [TURN_STEP.BEGINNING]?: Effect[]
+          [TURN_STEP.CARDSDRAWN]?: Effect[]
+          [TURN_STEP.CARDSPLACED]?: Effect[]
+          [TURN_STEP.ATTACK]?: Effect[]
+          [TURN_STEP.DEFEND]?: Effect[]
         }
       >
     | undefined

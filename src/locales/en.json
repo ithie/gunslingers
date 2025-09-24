@@ -2,6 +2,10 @@
   "player": {
     "won": "Player {0} wins!"
   },
+  "damage": "Damage",
+  "defend": "Confirm defense?",
+  "noDefense": "Do not defend",
+  "endTurn": "Zug beenden",
   "character": {
     "gambler": "Gabler",
     "gunslinger": "Gunslinger",

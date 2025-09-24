@@ -11,10 +11,15 @@ export default interface IPlayer {
     [VALUE_TYPES.SPD]?: number
     cannotDefend?: boolean
   }
+  cardsPlayed: boolean
+  selectedCards: {
+    zoneCard: number | null
+    handCard: number | null
+  }
   name: string
   hand: Array<ICard | undefined>
   currentMaxHand: number
-  boardStack: Array<ICard | unknown>[]
+  boardStack: Array<ICard | undefined>[]
   zoneCards: Array<IZoneCard | undefined>
   character: ICharacter
   vCharacter: ICharacterStats

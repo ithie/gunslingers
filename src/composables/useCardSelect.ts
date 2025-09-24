@@ -1,18 +1,25 @@
 import { computed } from 'vue'
 import useGameTable from './useGameTable'
 
-export default (cardIndex: number, key: 'zoneCard' | 'handCard') => {
+export default (
+  cardIndex: number,
+  playerIndex: number,
+  key: 'zoneCard' | 'handCard',
+) => {
   return {
     isSelected: computed(() => {
       const { gameTable } = useGameTable()
-      if (!gameTable.value.activeTurn.cardsPlayed) {
-        return cardIndex === gameTable.value.activeTurn[key]
+      if (!gameTable.value.players[playerIndex].cardsPlayed) {
+        return (
+          cardIndex === gameTable.value.players[playerIndex].selectedCards[key]
+        )
       }
     }),
     select: () => {
       const { gameTable } = useGameTable()
-      if (!gameTable.value.activeTurn.cardsPlayed) {
-        return (gameTable.value.activeTurn[key] = cardIndex)
+      if (!gameTable.value.players[playerIndex].cardsPlayed) {
+        return (gameTable.value.players[playerIndex].selectedCards[key] =
+          cardIndex)
       }
     },
   }
