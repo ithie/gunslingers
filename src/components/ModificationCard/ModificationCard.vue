@@ -2,7 +2,7 @@
   <div class="container">
     <div class="image" :style="{ backgroundImage: 'url(' + imgSrc + ')' }" />
     <div class="item" v-for="(modification, key) in modifications" :key="key">
-      {{ modification.key }} {{ modification.value }}
+      {{ $t(modification.key) }} {{ modification.value }}
     </div>
   </div>
 </template>
@@ -35,15 +35,15 @@ const modifications: ComputedRef<{ key: string; value: number | undefined }[]> =
   computed(() =>
     [
       {
-        key: 'ATK',
+        key: 'atk',
         value: ATK,
       },
       {
-        key: 'DEF',
+        key: 'def',
         value: DEF,
       },
       {
-        key: 'SPD',
+        key: 'spd',
         value: SPD,
       },
     ].filter((item) => !!item.value),

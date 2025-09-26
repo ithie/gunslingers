@@ -31,6 +31,6 @@ const modifications: ComputedRef<{ key: string; value: number | undefined }[]> =
         key: 'SPD',
         value: SPD,
       },
-    ].filter((item) => !!item.value),
+    ].filter((item): boolean => !!item.value),
   )
 </script>

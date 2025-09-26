@@ -17,10 +17,8 @@ export default interface IPlayer {
     handCard: number | null
   }
   name: string
-  hand: Array<ICard | undefined>
   currentMaxHand: number
   boardStack: Array<ICard | undefined>[]
-  zoneCards: Array<IZoneCard | undefined>
   character: ICharacter
   vCharacter: ICharacterStats
 }

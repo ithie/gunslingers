@@ -5,16 +5,16 @@
       :style="{ backgroundImage: 'url(' + imgSrc + ')' }"
     ></div>
     <div class="stats">
-      <div>HP: {{ HP }}</div>
-      <div>ATK: {{ ATK }}</div>
-      <div>DEF:{{ DEF }}</div>
-      <div>SPD:{{ SPD }}</div>
+      <div>{{ $t('hp') }}: {{ HP }}</div>
+      <div>{{ $t('atk') }}: {{ ATK }}</div>
+      <div>{{ $t('def') }}:{{ DEF }}</div>
+      <div>{{ $t('spd') }}:{{ SPD }}</div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { CARD_TYPES } from '../../enums'
-import IEffect from '../../interfaces/IEffect'
+import { type Effect } from '../../interfaces/IEffect'
 import gunslingerImg from './assets/gunslinger.png'
 import gamblerImg from './assets/gambler.png'
 import headhunterImg from './assets/headhunter.png'
@@ -27,7 +27,7 @@ const { name } = defineProps<{
   DEF?: number
   SPD?: number
   type: CARD_TYPES
-  effect?: IEffect
+  effect?: Effect
 }>()
 
 const imgMap: Record<string, string> = {
@@ -46,12 +46,10 @@ const imgSrc = computed(() => imgMap[name])
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 0.8;
-  background-color: none;
+  position: relative;
   div {
-    padding: 2px;
-    background-color: white;
-    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
   }
 }
 .character {

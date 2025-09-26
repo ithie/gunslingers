@@ -7,6 +7,9 @@ import { CARD_TYPES, VALUE_TYPES } from '../enums'
 import { TURN_STEP } from '../interfaces/ITurnStats'
 import ICard from '../interfaces/ICard'
 import IPlayer from '../interfaces/IPlayer'
+import useLayerManager from '../components/LayerManager/useLayerManager'
+import useHandCards from '../components/HandCards/useHandCards'
+import IZoneCard from '../interfaces/IZoneCard'
 
 const getNextPlayer = () => {
   let nextPlayer = gameTable.value.turnStats.activePlayerIndex + 1
@@ -17,37 +20,39 @@ const getNextPlayer = () => {
 }
 
 const drawNewCards = (nextPlayer: number) => {
+  const { handCards } = useHandCards()
+
   const newCardDrawn = gameTable.value.draftDeck.pop()
   const currentMaxHand = gameTable.value.players[nextPlayer].currentMaxHand
 
   if (
     newCardDrawn &&
-    gameTable.value.players[nextPlayer].hand.filter((item) => item).length !==
+    handCards.value.hand[nextPlayer].filter((item) => item).length !==
       currentMaxHand
   ) {
-    gameTable.value.players[nextPlayer].hand = gameTable.value.players[
-      nextPlayer
-    ].hand.map((handCard) => {
-      if (!handCard) {
-        return newCardDrawn!
-      }
-      return handCard
-    })
+    handCards.value.hand[nextPlayer] = handCards.value.hand[nextPlayer].map(
+      (handCard) => {
+        if (!handCard) {
+          return newCardDrawn!
+        }
+        return handCard
+      },
+    )
   }
 
   if (
-    gameTable.value.players[nextPlayer].hand.filter(
+    handCards.value.hand[nextPlayer].filter(
       (item) => item && item.type === CARD_TYPES.DEFENSE,
     ).length === currentMaxHand
   ) {
-    gameTable.value.players[nextPlayer].hand = gameTable.value.players[
-      nextPlayer
-    ].hand.map(() => {
-      if (gameTable.value.draftDeck.length >= 1) {
-        return gameTable.value.draftDeck.pop()
-      }
-      return undefined
-    })
+    handCards.value.hand[nextPlayer] = handCards.value.hand[nextPlayer].map(
+      () => {
+        if (gameTable.value.draftDeck.length >= 1) {
+          return gameTable.value.draftDeck.pop()
+        }
+        return undefined
+      },
+    )
   }
 }
 
@@ -60,14 +65,19 @@ const attack = () => {
     gameTable.value.players[nextPlayer].vCharacter.DEF
 
   if (damage > 0) {
-    gameTable.value.showDamage = {
-      damage,
-      next: (defenseCard?: ICard) => {
-        // @todo evaluate if defense-card was played
+    useLayerManager().setLayer('DamageLayer', {
+      props: {
+        damage,
+        nextPlayer: getNextPlayer(),
+      },
+      next: (data?: unknown) => {
+        const defenseCard = data as ICard
+
+        useLayerManager().unsetLayer()
 
         let calculatedDamage = damage
+
         if (defenseCard) {
-          // @todo evaluate card
           if (defenseCard.name === 'card.defense.ricochetRule') {
             calculatedDamage = Math.round(calculatedDamage / 2)
 
@@ -115,8 +125,6 @@ const attack = () => {
 
         gameTable.value.turnStats.activePlayerIndex
 
-        gameTable.value.showDamage = undefined
-
         if (
           gameTable.value.players[nextPlayer].vCharacter.HP <= 0 ||
           gameTable.value.players[activePlayer].vCharacter.HP <= 0
@@ -128,13 +136,15 @@ const attack = () => {
           endTurn()
         }
       },
-    }
+    })
   } else {
     endTurn()
   }
 }
 
 const endTurn = () => {
+  const { handCards } = useHandCards()
+
   gameTable.value.showDamage = undefined
 
   gameTable.value.players.forEach((player: IPlayer) => {
@@ -152,24 +162,20 @@ const endTurn = () => {
 
   const newZoneCardDrawn = gameTable.value.zoneDraftDeck.pop()!
 
-  if (
-    gameTable.value.players[nextPlayer].zoneCards.filter((item) => item)
-      .length === 0
-  ) {
-    gameTable.value.players[nextPlayer].zoneCards[0] = newZoneCardDrawn
+  if (handCards.value.zone[nextPlayer].filter((item) => item).length === 0) {
+    handCards.value.zone[nextPlayer][0] = newZoneCardDrawn
     for (let i = 1; i < 5; i++) {
-      gameTable.value.players[nextPlayer].zoneCards[i] =
-        gameTable.value.zoneDraftDeck.pop()!
+      handCards.value.zone[nextPlayer][i] = gameTable.value.zoneDraftDeck.pop()!
     }
-  } else if (gameTable.value.players[nextPlayer].zoneCards.length < 5) {
-    gameTable.value.players[nextPlayer].zoneCards = gameTable.value.players[
-      nextPlayer
-    ].zoneCards.map((zoneCard) => {
-      if (!zoneCard) {
-        return newZoneCardDrawn
-      }
-      return zoneCard
-    })
+  } else if (handCards.value.zone[nextPlayer].length < 5) {
+    handCards.value.zone[nextPlayer] = handCards.value.zone[nextPlayer].map(
+      (zoneCard) => {
+        if (!zoneCard) {
+          return newZoneCardDrawn
+        }
+        return zoneCard
+      },
+    )
   }
 
   gameTable.value.players[nextPlayer].boardStack.forEach(
@@ -265,9 +271,6 @@ const calculateStats = () => {
           if (tmpVCharacter[VALUE_TYPES.SPD] < 0) {
             tmpVCharacter[VALUE_TYPES.SPD] = 0
           }
-
-          if (card.effect && card.effect.when !== 'INSTANT') {
-          }
         }
       }
     }
@@ -279,6 +282,8 @@ const calculateStats = () => {
 const INITIAL_MAX_HAND = 7
 
 export default () => {
+  const { handCards, setNewCards } = useHandCards()
+
   return {
     getNextPlayer,
     init: (
@@ -292,17 +297,13 @@ export default () => {
       gameTable.value.players = players.map((player) => ({
         name: player.name,
         currentMaxHand: INITIAL_MAX_HAND,
-        hand: gameTable.value.draftDeck.splice(
-          INITIAL_MAX_HAND * -1,
-          INITIAL_MAX_HAND,
-        ),
         cardsPlayed: false,
         selectedCards: {
           zoneCard: null,
           handCard: null,
         },
         boardStack: [[], [], [], [], [], [], [], []],
-        zoneCards: gameTable.value.zoneDraftDeck.splice(-5, 5),
+
         character: player.character,
         vCharacter: {
           [VALUE_TYPES.HP]: player.character.HP,
@@ -312,6 +313,22 @@ export default () => {
         },
         tmpStats: {},
       }))
+
+      players.forEach((_, index) => {
+        setNewCards(
+          index,
+          'zone',
+          gameTable.value.zoneDraftDeck.splice(-5, 5) as unknown as ICard[],
+        )
+        setNewCards(
+          index,
+          'hand',
+          gameTable.value.draftDeck.splice(
+            INITIAL_MAX_HAND * -1,
+            INITIAL_MAX_HAND,
+          ),
+        )
+      })
     },
     setZoneCard: (cardIndex: number, playerIndex: number) => {
       gameTable.value.players[playerIndex].selectedCards.zoneCard = cardIndex
@@ -325,15 +342,19 @@ export default () => {
     endTurn,
     attack,
     playCards: (playerIndex: number) => {
+      const { handCards } = useHandCards()
+
       const { zoneCard, handCard } =
         gameTable.value.players[playerIndex].selectedCards
 
       if (zoneCard !== null && handCard !== null) {
         const currentPlayer = gameTable.value.players[playerIndex]
 
-        const boardStackTarget = currentPlayer.zoneCards[zoneCard!]!.zones[0]
+        const boardStackTarget = (
+          handCards.value['zone'][playerIndex][zoneCard!]! as IZoneCard
+        ).zones[0]
+        const cardToPlace = handCards.value['hand'][playerIndex][handCard!]
 
-        const cardToPlace = currentPlayer.hand[handCard!]
         const targetPlayer =
           cardToPlace && cardToPlace.type === CARD_TYPES.EVENT
             ? getNextPlayer()
@@ -358,8 +379,8 @@ export default () => {
           cardToPlace,
         )
 
-        currentPlayer.zoneCards[zoneCard!] = undefined
-        currentPlayer.hand[handCard!] = undefined
+        handCards.value['zone'][playerIndex][zoneCard!] = undefined
+        handCards.value['hand'][playerIndex][handCard!] = undefined
 
         gameTable.value.players[playerIndex].selectedCards = {
           zoneCard: null,
