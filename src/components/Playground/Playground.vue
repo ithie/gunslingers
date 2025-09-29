@@ -1,32 +1,43 @@
 <template>
   <div class="playgroundStack">
-    <div
-      class="field"
-      v-for="(stackItem, index) in renderBoardStack"
-      :key="index"
+    <template
+      v-for="(stackItemSet, stackIndex) in renderBoardStack"
+      :key="stackIndex"
     >
-      <Card
-        v-if="stackItem && stackItem.type"
-        :name="stackItem.name"
-        :type="stackItem.type"
-        :index="index"
-        :player-index="playerIndex"
-        :clickable="false"
+      <div
+        class="field"
+        v-for="(stackItem, index) in stackItemSet"
+        :key="index"
       >
-        <component :is="CARD_MAP[stackItem.type!]" v-bind="stackItem" />
-      </Card>
-      <Card
-        v-else
-        :player-index="playerIndex"
-        :type="CARD_TYPES.EMPTY_STACK"
-        :index="index"
-      ></Card>
-    </div>
+        <Card
+          v-if="stackItem && stackItem.type"
+          :name="stackItem.name"
+          :type="stackItem.type"
+          :index="stackIndex"
+          :player-index="playerIndex"
+          :clickable="false"
+        >
+          <component
+            :playerIndex="playerIndex"
+            v-if="!!stackItem"
+            :is="CARD_MAP[stackItem.type!]"
+            v-bind="stackItem"
+            has-effect
+          />
+        </Card>
+        <Card
+          v-else
+          :player-index="playerIndex"
+          :type="CARD_TYPES.EMPTY_STACK"
+          :index="index"
+        ></Card>
+      </div>
+    </template>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { CARD_TYPES } from '../../enums'
+import { computed, Ref, ref, watch } from 'vue'
+import { CARD_TYPES, VALUE_TYPES } from '../../enums'
 import Card from '../Card/Card.vue'
 import ZoneCard from '../ZoneCard/ZoneCard.vue'
 import useGameTable from '../../composables/useGameTable'
@@ -35,6 +46,8 @@ import DefenseCard from '../DefenseCard/DefenseCard.vue'
 import EventCard from '../EventCard/EventCard.vue'
 import Characters from '../Characters/Characters.vue'
 import ICard from '../../interfaces/ICard'
+import usePlayground from './usePlayground'
+import ICharacterStats from '../../interfaces/ICharacterStats'
 
 const { playerIndex } = defineProps<{
   playerIndex: number
@@ -52,28 +65,61 @@ const { gameTable } = useGameTable()
 
 const player = computed(() => gameTable.value.players[playerIndex])
 
-const boardStack = computed(() => player.value.boardStack)
+const { boardStack } = usePlayground().get(playerIndex)
 
-const renderBoardStack = computed(() => {
-  return boardStack.value
-    .map((stack, stackIndex) => {
-      const visibleStackItem: unknown[] = [
-        stack.length > 0 ? stack[stack.length - 1] : [''],
-      ]
-      if (stackIndex === 3) {
-        visibleStackItem.push({
-          ...player.value.character,
-          HP: player.value.vCharacter.HP,
-          ATK: player.value.vCharacter.ATK,
-          DEF: player.value.vCharacter.DEF,
-          SPD: player.value.vCharacter.SPD,
-        })
-      }
+const renderBoardStack = ref<(ICard | ICharacterStats | '')[][]>()
 
-      return visibleStackItem
-    })
-    .flat()
-})
+const makeComparable = (
+  boardStack: (ICard | undefined)[][],
+  vCharacter: ICharacterStats,
+) => {
+  return `${boardStack
+    .map((item, index) =>
+      !!item.length ? `${item[0].name}:${item[0].type}.` : `${index}.`,
+    )
+    .join('-')}_${vCharacter[VALUE_TYPES.HP]}:${vCharacter[VALUE_TYPES.ATK]}:${
+    vCharacter[VALUE_TYPES.SPD]
+  }:${vCharacter[VALUE_TYPES.DEF]}`
+}
+
+watch(
+  () => [boardStack.value, player.value.vCharacter],
+  (
+    [currBoardStack, currVCharacter]: [
+      (ICard | undefined)[][],
+      ICharacterStats,
+    ],
+    [prevBoardStack, prevVCharacter]: [
+      (ICard | undefined)[][],
+      ICharacterStats,
+    ] = [[], {} as ICharacterStats],
+  ) => {
+    const curr = makeComparable(currBoardStack, currVCharacter)
+    const prev = makeComparable(prevBoardStack, prevVCharacter)
+
+    if (curr !== prev) {
+      renderBoardStack.value = currBoardStack.map((stack, stackIndex) => {
+        const visibleStackItem: (ICard | '' | ICharacterStats)[] = [
+          stack && stack.length > 0 ? stack[stack.length - 1] ?? '' : '',
+        ]
+        if (stackIndex === 3) {
+          visibleStackItem.push({
+            ...player.value.character,
+            [VALUE_TYPES.HP]: player.value.vCharacter.HP,
+            [VALUE_TYPES.ATK]: player.value.vCharacter.ATK,
+            [VALUE_TYPES.DEF]: player.value.vCharacter.DEF,
+            [VALUE_TYPES.SPD]: player.value.vCharacter.SPD,
+          })
+        }
+
+        return visibleStackItem
+      })
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 </script>
 <style lang="scss">
 .playgroundStack {

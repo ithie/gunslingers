@@ -1,4 +1,4 @@
-import { Ref, ref, watch } from 'vue'
+import { Ref, ref, unref, watch } from 'vue'
 import IGameTable from '../interfaces/IGameTable'
 import getDraftDeck from '../rules/getDraftDeck'
 import getZoneCardsDraftDeck from '../rules/getZoneCardsDraftDeck'
@@ -10,6 +10,7 @@ import IPlayer from '../interfaces/IPlayer'
 import useLayerManager from '../components/LayerManager/useLayerManager'
 import useHandCards from '../components/HandCards/useHandCards'
 import IZoneCard from '../interfaces/IZoneCard'
+import usePlayground from '../components/Playground/usePlayground'
 
 const getNextPlayer = () => {
   let nextPlayer = gameTable.value.turnStats.activePlayerIndex + 1
@@ -178,25 +179,24 @@ const endTurn = () => {
     )
   }
 
-  gameTable.value.players[nextPlayer].boardStack.forEach(
-    (handCard: unknown[]) => {
-      if (
-        handCard &&
-        handCard.length > 0 &&
-        (handCard[0] as ICard)?.type === CARD_TYPES.EVENT
-      ) {
-        if ((handCard[0] as ICard)?.name === 'card.event.snakeBite') {
-          gameTable.value.players[nextPlayer].vCharacter.HP =
-            gameTable.value.players[nextPlayer].vCharacter.HP - 1
+  const { boardStack } = usePlayground().get(nextPlayer)
+  boardStack.value.forEach((handCard: unknown[]) => {
+    if (
+      handCard &&
+      handCard.length > 0 &&
+      (handCard[0] as ICard)?.type === CARD_TYPES.EVENT
+    ) {
+      if ((handCard[0] as ICard)?.name === 'card.event.snakeBite') {
+        gameTable.value.players[nextPlayer].vCharacter.HP =
+          gameTable.value.players[nextPlayer].vCharacter.HP - 1
 
-          if (gameTable.value.players[nextPlayer].vCharacter.HP <= 0) {
-            gameTable.value.gameEnds = true
-            return
-          }
+        if (gameTable.value.players[nextPlayer].vCharacter.HP <= 0) {
+          gameTable.value.gameEnds = true
+          return
         }
       }
-    },
-  )
+    }
+  })
 
   drawNewCards(nextPlayer)
 }
@@ -239,7 +239,7 @@ const calculateStats = () => {
     // todo: execute Effect of turn!
     const player = gameTable.value.players[playerIndex]
 
-    const { character, vCharacter, boardStack } = player
+    const { character, vCharacter } = player
 
     let hp = vCharacter[VALUE_TYPES.HP]
     let atk = character[VALUE_TYPES.ATK]
@@ -253,22 +253,24 @@ const calculateStats = () => {
       [VALUE_TYPES.SPD]: spd,
     }
 
+    const boardStack = unref(usePlayground().get(playerIndex).boardStack)
+
     for (let i = 0; i < boardStack.length; i++) {
       if (boardStack.length > 0) {
-        const card = boardStack[i].slice(-1, 1)[0] as ICard
+        const card = boardStack[i].slice(-1)[0] as ICard
 
         if (card) {
           tmpVCharacter[VALUE_TYPES.ATK] += card[VALUE_TYPES.ATK] || 0
           tmpVCharacter[VALUE_TYPES.DEF] += card[VALUE_TYPES.DEF] || 0
           tmpVCharacter[VALUE_TYPES.SPD] += card[VALUE_TYPES.SPD] || 0
 
-          if (tmpVCharacter[VALUE_TYPES.ATK] < 0) {
+          if (tmpVCharacter[VALUE_TYPES.ATK] <= 0) {
             tmpVCharacter[VALUE_TYPES.ATK] = 0
           }
-          if (tmpVCharacter[VALUE_TYPES.DEF] < 0) {
+          if (tmpVCharacter[VALUE_TYPES.DEF] <= 0) {
             tmpVCharacter[VALUE_TYPES.DEF] = 0
           }
-          if (tmpVCharacter[VALUE_TYPES.SPD] < 0) {
+          if (tmpVCharacter[VALUE_TYPES.SPD] <= 0) {
             tmpVCharacter[VALUE_TYPES.SPD] = 0
           }
         }
@@ -293,6 +295,8 @@ export default () => {
         zoneCards: { alwaysFull: boolean; maxZoneCards: number }
       },
     ) => {
+      usePlayground().initStack(players.length)
+
       gameTable.value.rules = { ...additionalRules }
       gameTable.value.players = players.map((player) => ({
         name: player.name,
@@ -302,7 +306,6 @@ export default () => {
           zoneCard: null,
           handCard: null,
         },
-        boardStack: [[], [], [], [], [], [], [], []],
 
         character: player.character,
         vCharacter: {
@@ -348,8 +351,6 @@ export default () => {
         gameTable.value.players[playerIndex].selectedCards
 
       if (zoneCard !== null && handCard !== null) {
-        const currentPlayer = gameTable.value.players[playerIndex]
-
         const boardStackTarget = (
           handCards.value['zone'][playerIndex][zoneCard!]! as IZoneCard
         ).zones[0]
@@ -375,9 +376,9 @@ export default () => {
           }
         }
 
-        gameTable.value.players[targetPlayer].boardStack[boardStackTarget].push(
-          cardToPlace,
-        )
+        if (cardToPlace) {
+          usePlayground().set(targetPlayer, boardStackTarget, cardToPlace)
+        }
 
         handCards.value['zone'][playerIndex][zoneCard!] = undefined
         handCards.value['hand'][playerIndex][handCard!] = undefined

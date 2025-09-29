@@ -13,12 +13,15 @@ import nimbleFinger from './assets/nimble-finger.png'
 import rodeFaster from './assets/rode-faster.png'
 import steelVest from './assets/steel-vest.png'
 import unleashedRage from './assets/unleashed-rage.png'
+import useCard from '../Card/useCard'
 
-const { name, ATK, DEF, SPD } = defineProps<{
+const { name, ATK, DEF, SPD, playerIndex, hasEffect } = defineProps<{
   name: string
   ATK?: number
   DEF?: number
   SPD?: number
+  playerIndex: number
+  hasEffect?: boolean
 }>()
 
 const imageMap: Record<string, unknown> = {
@@ -30,6 +33,8 @@ const imageMap: Record<string, unknown> = {
 }
 
 const imgSrc = computed(() => imageMap[name])
+
+useCard(playerIndex, hasEffect, name)
 
 const modifications: ComputedRef<{ key: string; value: number | undefined }[]> =
   computed(() =>

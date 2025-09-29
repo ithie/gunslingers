@@ -5,10 +5,16 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
+import useCard from '../Card/useCard'
 
-const { ruleLabel } = defineProps<{
+const { ruleLabel, playerIndex, name, hasEffect } = defineProps<{
   ruleLabel?: string
+  playerIndex: number
+  name: string
+  hasEffect?: boolean
 }>()
+
+useCard(playerIndex, hasEffect, name)
 
 const itemStyles = computed(() => ({
   'long-text': ruleLabel?.includes('timeDistortion'),

@@ -7,14 +7,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ComputedRef } from 'vue'
+import { computed, ComputedRef, watch } from 'vue'
+import useCard from '../Card/useCard'
 
-const { ATK, DEF, SPD } = defineProps<{
+const { ATK, DEF, SPD, playerIndex, hasEffect, name } = defineProps<{
   ruleLabel?: string
   ATK?: number
   DEF?: number
   SPD?: number
+  playerIndex: number
+  hasEffect?: boolean
+  name: string
 }>()
+
+useCard(playerIndex, hasEffect, name)
 
 const modifications: ComputedRef<{ key: string; value: number | undefined }[]> =
   computed(() =>

@@ -9,7 +9,12 @@
         :type="card.type"
         :name="isPlayerActive ? card.name : ''"
       >
-        <component v-if="!hideCards" :is="CARD_MAP[card.type!]" v-bind="card" />
+        <component
+          v-if="!hideCards"
+          :is="CARD_MAP[card.type!]"
+          v-bind="card"
+          :player-index="playerIndex"
+        />
       </Card>
       <Card
         v-else

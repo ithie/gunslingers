@@ -18,7 +18,6 @@ export default interface IPlayer {
   }
   name: string
   currentMaxHand: number
-  boardStack: Array<ICard | undefined>[]
   character: ICharacter
   vCharacter: ICharacterStats
 }

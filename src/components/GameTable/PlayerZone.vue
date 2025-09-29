@@ -28,6 +28,7 @@ import { computed } from 'vue'
 import ICard from '../../interfaces/ICard'
 import { CARD_TYPES } from '../../enums'
 import HandCardsContainer from '../HandCardsContainer/HandCardsContainer.vue'
+import usePlayground from '../Playground/usePlayground'
 
 const { playerIndex } = defineProps<{
   playerIndex: number
@@ -41,11 +42,12 @@ const cardsPlayed = computed(
   () => gameTable.value.players[playerIndex].cardsPlayed,
 )
 
+const { boardStack } = usePlayground().get(playerIndex)
+
 const canAttack = computed(() => {
   let noHeadButt = true
-  gameTable.value.players[
-    gameTable.value.turnStats.activePlayerIndex
-  ].boardStack.forEach((handCard: unknown[]) => {
+
+  boardStack.value.forEach((handCard: unknown[]) => {
     if (
       handCard &&
       handCard.length > 0 &&
