@@ -11,7 +11,7 @@
       >
         <component
           v-if="!hideCards"
-          :is="CARD_MAP[card.type!]"
+          :is="CARD_MAP[card.type as Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK | CARD_TYPES.ZONE>]"
           v-bind="card"
           :player-index="playerIndex"
         />
@@ -41,7 +41,7 @@ import useHandCards from './useHandCards'
 const { playerIndex, type, filter } = defineProps<{
   playerIndex: number
   type: 'zone' | 'hand'
-  filter?: CARD_TYPES
+  filter?: Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK>
   hideCards?: boolean
 }>()
 

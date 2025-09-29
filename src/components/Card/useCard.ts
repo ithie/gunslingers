@@ -7,7 +7,6 @@ export default (playerIndex: number, hasEffect: boolean, name: string) => {
   const watchStopHandle: WatchStopHandle = watch(
     () => name,
     (curr, prev) => {
-      console.log('HASEFFECT?', hasEffect)
       if (hasEffect && prev !== curr) {
         console.log(
           'CHANGED VALUE:',

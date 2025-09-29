@@ -19,8 +19,8 @@
         >
           <component
             :playerIndex="playerIndex"
-            v-if="!!stackItem"
-            :is="CARD_MAP[stackItem.type!]"
+            v-if="!!stackItem && (stackItem as ICard).type && (stackItem as ICard).type"
+            :is="CARD_MAP[(stackItem as ICard).type as Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK | CARD_TYPES.ZONE>]"
             v-bind="stackItem"
             has-effect
           />
@@ -48,12 +48,20 @@ import Characters from '../Characters/Characters.vue'
 import ICard from '../../interfaces/ICard'
 import usePlayground from './usePlayground'
 import ICharacterStats from '../../interfaces/ICharacterStats'
+import makeComparable from '../../utils/makeComparable'
 
 const { playerIndex } = defineProps<{
   playerIndex: number
 }>()
 
-const CARD_MAP = {
+const CARD_MAP: {
+  [key in Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK>]:
+    | typeof EventCard
+    | typeof ModificationCard
+    | typeof DefenseCard
+    | typeof Characters
+    | typeof ZoneCard
+} = {
   [CARD_TYPES.EVENT]: EventCard,
   [CARD_TYPES.MODIFICATION]: ModificationCard,
   [CARD_TYPES.DEFENSE]: DefenseCard,
@@ -68,23 +76,6 @@ const player = computed(() => gameTable.value.players[playerIndex])
 const { boardStack } = usePlayground().get(playerIndex)
 
 const renderBoardStack = ref<(ICard | ICharacterStats | '')[][]>()
-
-const makeComparable = (
-  boardStack: (ICard | undefined)[][],
-  vCharacter: ICharacterStats,
-) => {
-  return `${boardStack
-    .map((item, index) =>
-      !!item.length
-        ? `${item && item[0] ? item[0].name : '_'}:${
-            item && item[0] ? item[0].type : '_'
-          }.`
-        : `${index}.`,
-    )
-    .join('-')}_${vCharacter[VALUE_TYPES.HP]}:${vCharacter[VALUE_TYPES.ATK]}:${
-    vCharacter[VALUE_TYPES.SPD]
-  }:${vCharacter[VALUE_TYPES.DEF]}`
-}
 
 watch(
   (): [(ICard | undefined)[][], ICharacterStats] => [

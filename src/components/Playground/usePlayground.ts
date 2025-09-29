@@ -12,7 +12,6 @@ export default () => {
       })
     },
     set: (playerIndex: number, stackIndex: number, card: ICard) => {
-      console.log('STACKINDEX')
       boardStack.value[playerIndex][stackIndex].push(card)
     },
     get: (playerIndex: number) => ({

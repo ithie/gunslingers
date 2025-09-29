@@ -24,11 +24,12 @@
 import Playground from '../Playground/Playground.vue'
 import HandCards from '../HandCards/HandCards.vue'
 import useGameTable from '../../composables/useGameTable'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ICard from '../../interfaces/ICard'
 import { CARD_TYPES } from '../../enums'
 import HandCardsContainer from '../HandCardsContainer/HandCardsContainer.vue'
 import usePlayground from '../Playground/usePlayground'
+import makeComparable from '../../utils/makeComparable'
 
 const { playerIndex } = defineProps<{
   playerIndex: number
@@ -39,28 +40,35 @@ const isActivePlayer = computed(
   () => gameTable.value.turnStats.activePlayerIndex === playerIndex,
 )
 const cardsPlayed = computed(
-  () => gameTable.value.players[playerIndex].cardsPlayed,
+  () => gameTable.value.players[playerIndex]?.cardsPlayed,
 )
 
 const { boardStack } = usePlayground().get(playerIndex)
 
-const canAttack = computed(() => {
-  let noHeadButt = true
+const canAttack = ref(true)
 
-  boardStack.value.forEach((handCard: unknown[]) => {
-    if (
-      handCard &&
-      handCard.length > 0 &&
-      (handCard[0] as ICard)?.type === CARD_TYPES.EVENT
-    ) {
-      if ((handCard[0] as ICard)?.name === 'card.event.headButt') {
-        noHeadButt = false
-      }
+watch(
+  () => boardStack.value,
+  (curr, prev) => {
+    if (makeComparable(curr) !== makeComparable(prev)) {
+      let noHeadButt = true
+
+      curr.forEach((handCard: unknown[]) => {
+        if (
+          handCard &&
+          handCard.length > 0 &&
+          (handCard[0] as ICard)?.type === CARD_TYPES.EVENT
+        ) {
+          if ((handCard[0] as ICard)?.name === 'card.event.headButt') {
+            noHeadButt = false
+          }
+        }
+      })
+
+      canAttack.value = noHeadButt
     }
-  })
-
-  return noHeadButt
-})
+  },
+)
 </script>
 <style lang="scss">
 .playerZone {
