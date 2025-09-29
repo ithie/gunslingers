@@ -11,8 +11,8 @@
       >
         <component
           v-if="!hideCards"
-          :is="CARD_MAP[card.type as Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK | CARD_TYPES.ZONE>]"
-          v-bind="card"
+          :is="getCardComponent(card.type)"
+          v-bind="{ ...(card as CardProps) }"
           :player-index="playerIndex"
         />
       </Card>
@@ -30,13 +30,9 @@
 import { computed } from 'vue'
 import { CARD_TYPES } from '../../enums'
 import Card from '../Card/Card.vue'
-import ZoneCard from '../ZoneCard/ZoneCard.vue'
 import useGameTable from '../../composables/useGameTable'
-import ModificationCard from '../ModificationCard/ModificationCard.vue'
-import DefenseCard from '../DefenseCard/DefenseCard.vue'
-import EventCard from '../EventCard/EventCard.vue'
-import Characters from '../Characters/Characters.vue'
 import useHandCards from './useHandCards'
+import getCardComponent, { CardProps } from '../../utils/getCardComponent'
 
 const { playerIndex, type, filter } = defineProps<{
   playerIndex: number
@@ -55,14 +51,6 @@ const cards = computed(() => {
   }
   return handCards.value[type][playerIndex]
 })
-
-const CARD_MAP = {
-  [CARD_TYPES.EVENT]: EventCard,
-  [CARD_TYPES.MODIFICATION]: ModificationCard,
-  [CARD_TYPES.DEFENSE]: DefenseCard,
-  [CARD_TYPES.CHARACTER]: Characters,
-  [CARD_TYPES.ZONE]: ZoneCard,
-}
 
 const { gameTable } = useGameTable()
 

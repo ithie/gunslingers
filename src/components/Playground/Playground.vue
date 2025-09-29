@@ -20,8 +20,8 @@
           <component
             :playerIndex="playerIndex"
             v-if="!!stackItem && (stackItem as ICard).type && (stackItem as ICard).type"
-            :is="CARD_MAP[(stackItem as ICard).type as Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK | CARD_TYPES.ZONE>]"
-            v-bind="stackItem"
+            :is="getCardComponent((stackItem as ICard).type)"
+            v-bind="{ ...(stackItem as CardProps) }"
             has-effect
           />
         </Card>
@@ -39,35 +39,16 @@
 import { computed, Ref, ref, watch } from 'vue'
 import { CARD_TYPES, VALUE_TYPES } from '../../enums'
 import Card from '../Card/Card.vue'
-import ZoneCard from '../ZoneCard/ZoneCard.vue'
 import useGameTable from '../../composables/useGameTable'
-import ModificationCard from '../ModificationCard/ModificationCard.vue'
-import DefenseCard from '../DefenseCard/DefenseCard.vue'
-import EventCard from '../EventCard/EventCard.vue'
-import Characters from '../Characters/Characters.vue'
 import ICard from '../../interfaces/ICard'
 import usePlayground from './usePlayground'
 import ICharacterStats from '../../interfaces/ICharacterStats'
 import makeComparable from '../../utils/makeComparable'
+import getCardComponent, { CardProps } from '../../utils/getCardComponent'
 
 const { playerIndex } = defineProps<{
   playerIndex: number
 }>()
-
-const CARD_MAP: {
-  [key in Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK>]:
-    | typeof EventCard
-    | typeof ModificationCard
-    | typeof DefenseCard
-    | typeof Characters
-    | typeof ZoneCard
-} = {
-  [CARD_TYPES.EVENT]: EventCard,
-  [CARD_TYPES.MODIFICATION]: ModificationCard,
-  [CARD_TYPES.DEFENSE]: DefenseCard,
-  [CARD_TYPES.CHARACTER]: Characters,
-  [CARD_TYPES.ZONE]: ZoneCard,
-}
 
 const { gameTable } = useGameTable()
 
