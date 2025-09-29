@@ -10,9 +10,9 @@
         :key="index"
       >
         <Card
-          v-if="stackItem && stackItem.type"
-          :name="stackItem.name"
-          :type="stackItem.type"
+          v-if="stackItem && (stackItem as ICard).type"
+          :name="(stackItem as ICard).name"
+          :type="(stackItem as ICard).type"
           :index="stackIndex"
           :player-index="playerIndex"
           :clickable="false"
@@ -75,7 +75,11 @@ const makeComparable = (
 ) => {
   return `${boardStack
     .map((item, index) =>
-      !!item.length ? `${item[0].name}:${item[0].type}.` : `${index}.`,
+      !!item.length
+        ? `${item && item[0] ? item[0].name : '_'}:${
+            item && item[0] ? item[0].type : '_'
+          }.`
+        : `${index}.`,
     )
     .join('-')}_${vCharacter[VALUE_TYPES.HP]}:${vCharacter[VALUE_TYPES.ATK]}:${
     vCharacter[VALUE_TYPES.SPD]
@@ -83,7 +87,10 @@ const makeComparable = (
 }
 
 watch(
-  () => [boardStack.value, player.value.vCharacter],
+  (): [(ICard | undefined)[][], ICharacterStats] => [
+    boardStack.value,
+    player.value.vCharacter,
+  ],
   (
     [currBoardStack, currVCharacter]: [
       (ICard | undefined)[][],
