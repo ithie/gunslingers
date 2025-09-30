@@ -39,7 +39,7 @@
 import { computed, Ref, ref, watch } from 'vue'
 import { CARD_TYPES, VALUE_TYPES } from '../../enums'
 import Card from '../Card/Card.vue'
-import useGameTable from '../../composables/useGameTable'
+import useGameTable from '../../composables/useGameTable/useGameTable'
 import ICard from '../../interfaces/ICard'
 import usePlayground from './usePlayground'
 import ICharacterStats from '../../interfaces/ICharacterStats'

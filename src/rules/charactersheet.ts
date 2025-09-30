@@ -3,6 +3,7 @@ import { CARD_TYPES, VALUE_TYPES } from '../enums'
 import ICharacter from '../interfaces/ICharacter'
 import IGameTable from '../interfaces/IGameTable'
 import ICard from '../interfaces/ICard'
+import useHandCards from '../components/HandCards/useHandCards'
 
 export const gunslingerData: ICharacter = {
   [VALUE_TYPES.HP]: 10,
@@ -12,6 +13,8 @@ export const gunslingerData: ICharacter = {
   name: 'character.gunslinger',
   type: CARD_TYPES.CHARACTER,
   effect: (data) => {
+    /* const { hand } = useHandCards()
+    // @todo: korrigieren! Hand ist nun in useHand
     data.own.hand = data.own.hand.map((card?: ICard) => {
       if (card) {
         data.own.tmpStats = {
@@ -20,7 +23,7 @@ export const gunslingerData: ICharacter = {
         return undefined
       }
       return card
-    })
+    })*/
   },
   effectLabel: 'Tausche am Anfang zwei Karten gegen einmalig +2',
 }

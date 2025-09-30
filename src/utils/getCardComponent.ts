@@ -21,7 +21,8 @@ const CARD_MAP: {
 }
 
 const getCardComponent = (type: CARD_TYPES) => {
-  if (type === CARD_TYPES.EMPTY_STACK) {
+  if (type === CARD_TYPES.EMPTY_STACK || !(type in CARD_TYPES)) {
+    console.log('TYPE', type)
     return null
   }
 

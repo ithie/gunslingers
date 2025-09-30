@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { CARD_TYPES } from '../../enums'
-import useCardSelect from '../../composables/useCardSelect'
+import useCardSelect from '../../composables/useCardSelect/useCardSelect'
 
 const {
   type,

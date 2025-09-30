@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="ruleLabel">{{ $t(ruleLabel) }}</div>
+    <div v-if="ruleLabel" data-testid="rule-label">{{ $t(ruleLabel) }}</div>
     <div class="item" v-for="(modification, key) in modifications" :key="key">
       {{ modification.key }} {{ modification.value }}
     </div>

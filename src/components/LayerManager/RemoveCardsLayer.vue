@@ -14,7 +14,7 @@
 import { computed } from 'vue'
 import HandCards from '../HandCards/HandCards.vue'
 import { ILayerData } from './useLayerManager'
-import useGameTable from '../../composables/useGameTable'
+import useGameTable from '../../composables/useGameTable/useGameTable'
 
 const { props, next } = defineProps<ILayerData>()
 

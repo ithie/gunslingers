@@ -30,7 +30,7 @@
 import { computed } from 'vue'
 import { CARD_TYPES } from '../../enums'
 import Card from '../Card/Card.vue'
-import useGameTable from '../../composables/useGameTable'
+import useGameTable from '../../composables/useGameTable/useGameTable'
 import useHandCards from './useHandCards'
 import getCardComponent, { CardProps } from '../../utils/getCardComponent'
 

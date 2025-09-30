@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import Playground from '../Playground/Playground.vue'
 import HandCards from '../HandCards/HandCards.vue'
-import useGameTable from '../../composables/useGameTable'
+import useGameTable from '../../composables/useGameTable/useGameTable'
 import { computed, ref, watch } from 'vue'
 import ICard from '../../interfaces/ICard'
 import { CARD_TYPES } from '../../enums'

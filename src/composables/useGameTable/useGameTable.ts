@@ -1,16 +1,16 @@
 import { Ref, ref, unref, watch } from 'vue'
-import IGameTable from '../interfaces/IGameTable'
-import getDraftDeck from '../rules/getDraftDeck'
-import getZoneCardsDraftDeck from '../rules/getZoneCardsDraftDeck'
-import ICharacter from '../interfaces/ICharacter'
-import { CARD_TYPES, VALUE_TYPES } from '../enums'
-import { TURN_STEP } from '../interfaces/ITurnStats'
-import ICard from '../interfaces/ICard'
-import IPlayer from '../interfaces/IPlayer'
-import useLayerManager from '../components/LayerManager/useLayerManager'
-import useHandCards from '../components/HandCards/useHandCards'
-import IZoneCard from '../interfaces/IZoneCard'
-import usePlayground from '../components/Playground/usePlayground'
+import IGameTable from '../../interfaces/IGameTable'
+import getDraftDeck from '../../rules/getDraftDeck'
+import getZoneCardsDraftDeck from '../../rules/getZoneCardsDraftDeck'
+import ICharacter from '../../interfaces/ICharacter'
+import { CARD_TYPES, VALUE_TYPES } from '../../enums'
+import { TURN_STEP } from '../../interfaces/ITurnStats'
+import ICard from '../../interfaces/ICard'
+import IPlayer from '../../interfaces/IPlayer'
+import useLayerManager from '../../components/LayerManager/useLayerManager'
+import useHandCards from '../../components/HandCards/useHandCards'
+import IZoneCard from '../../interfaces/IZoneCard'
+import usePlayground from '../../components/Playground/usePlayground'
 
 const getNextPlayer = () => {
   let nextPlayer = gameTable.value.turnStats.activePlayerIndex + 1
@@ -284,7 +284,7 @@ const calculateStats = () => {
 const INITIAL_MAX_HAND = 7
 
 export default () => {
-  const { handCards, setNewCards } = useHandCards()
+  const { setNewCards } = useHandCards()
 
   return {
     getNextPlayer,

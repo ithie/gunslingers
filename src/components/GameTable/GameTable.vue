@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-import useGameTable from '../../composables/useGameTable'
+import useGameTable from '../../composables/useGameTable/useGameTable'
 import { gamblerData, gunslingerData } from '../../rules/charactersheet'
 import PlayerZone from './PlayerZone.vue'
 import LayerManager from '../LayerManager/LayerManager.vue'

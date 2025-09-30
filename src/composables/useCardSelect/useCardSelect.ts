@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import useGameTable from './useGameTable'
+import useGameTable from '../useGameTable/useGameTable'
 
 export default (
   cardIndex: number,
