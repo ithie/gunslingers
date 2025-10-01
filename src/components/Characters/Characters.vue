@@ -7,8 +7,8 @@
     <div class="stats">
       <div>{{ $t('hp') }}: {{ HP }}</div>
       <div>{{ $t('atk') }}: {{ ATK }}</div>
-      <div>{{ $t('def') }}:{{ DEF }}</div>
-      <div>{{ $t('spd') }}:{{ SPD }}</div>
+      <div>{{ $t('def') }}: {{ DEF }}</div>
+      <div>{{ $t('spd') }}: {{ SPD }}</div>
     </div>
   </div>
 </template>

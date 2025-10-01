@@ -1,27 +1,19 @@
 import { describe, it, expect, vi } from 'vitest'
-import { shallowMount } from '@vue/test-utils'
 import EventCard from './EventCard.vue'
 import useCard from '../Card/useCard'
+import createWrapperUtil from '../../utils/createWrapper'
 
 vi.mock('../Card/useCard', () => ({
   default: vi.fn(),
 }))
 
-const mockGlobal = {
-  mocks: {
-    $t: (msg: string) => `T::${msg}::T`,
-  },
-}
 const baseProps = {
   playerIndex: 0,
   name: 'Standard-Event',
 }
 
 const createWrapper = (props: Record<string, any> = {}) => {
-  return shallowMount(EventCard, {
-    props: { ...baseProps, ...props },
-    global: mockGlobal,
-  })
+  return createWrapperUtil(EventCard, props, baseProps)
 }
 
 const useCardMock = useCard as unknown as ReturnType<typeof vi.fn>
@@ -41,6 +33,8 @@ describe('EventCard.vue', () => {
   it('should display the translated ruleLabel if provided', () => {
     const wrapper = createWrapper({ ruleLabel: 'EVENT_RULE_EFFECT' })
 
+    expect(wrapper).toMatchSnapshot()
+
     const ruleDiv = wrapper.find('[data-testid="rule-label"]')
 
     expect(ruleDiv.exists()).toBe(true)
@@ -50,12 +44,16 @@ describe('EventCard.vue', () => {
   it('should NOT display the ruleLabel div if ruleLabel is undefined', () => {
     const wrapper = createWrapper({ ruleLabel: undefined })
 
+    expect(wrapper).toMatchSnapshot()
+
     const ruleDiv = wrapper.find('.container > div:first-child')
     expect(ruleDiv.exists()).toBe(false)
   })
 
   it('should display only ATK and SPD modifications when DEF is missing', () => {
     const wrapper = createWrapper({ ATK: 5, SPD: -2, DEF: undefined })
+
+    expect(wrapper).toMatchSnapshot()
 
     const items = wrapper.findAll('.item')
 
@@ -73,6 +71,8 @@ describe('EventCard.vue', () => {
       SPD: undefined,
     })
 
+    expect(wrapper).toMatchSnapshot()
+
     const items = wrapper.findAll('.item')
 
     expect(items.length).toBe(0)
@@ -81,6 +81,8 @@ describe('EventCard.vue', () => {
   it('should display all three modifications if all are provided', () => {
     const wrapper = createWrapper({ ATK: 1, DEF: 2, SPD: 3 })
     const items = wrapper.findAll('.item')
+
+    expect(wrapper).toMatchSnapshot()
 
     expect(items.length).toBe(3)
     expect(items[0].text()).toBe('ATK 1')
