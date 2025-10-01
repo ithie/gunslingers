@@ -4,9 +4,20 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { configDefaults } from 'vitest/config'
 import { HstVue } from '@histoire/plugin-vue'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    visualizer({
+      open: true,
+      filename: 'dist/stats.html',
+      title: 'Vite Rollup Visualizer',
+      gzipSize: true,
+      brotliSize: true,
+      template: 'treemap',
+    }),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -19,6 +30,15 @@ export default defineConfig({
     root: fileURLToPath(new URL('./', import.meta.url)),
     coverage: {
       provider: 'istanbul',
+      failOnCoverageNotReached: true,
+      thresholds: {
+        global: {
+          lines: 80,
+          functions: 80,
+          statements: 80,
+          branches: 80,
+        },
+      },
     },
   },
   histoire: {

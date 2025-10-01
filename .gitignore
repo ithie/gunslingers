@@ -6,6 +6,7 @@
 Thumbs.db
 
 /coverage
+/report
 
 .env
 .env.local

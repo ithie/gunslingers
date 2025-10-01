@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ComputedRef, watch } from 'vue'
+import { computed, ComputedRef } from 'vue'
 import useCard from '../Card/useCard'
 
 const { ATK, DEF, SPD, playerIndex, hasEffect, name } = defineProps<{

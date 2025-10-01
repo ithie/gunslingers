@@ -6,7 +6,7 @@ import i18n from './i18n'
 async function bootstrapApp() {
   const app = createApp(App)
   const initialMessages = await import(
-    `./locales/${i18n.global.locale.value}.json`
+    `./locales/${i18n.global.locale.value}.js`
   )
 
   i18n.global.setLocaleMessage(

@@ -14,7 +14,7 @@ import GameTable from './components/GameTable/GameTable.vue'
 const { locale } = useI18n()
 
 async function loadLocaleMessages(lang: string) {
-  const messages = await import(`./locales/${lang}.json`)
+  const messages = await import(`./locales/${lang}.js`)
   return messages.default
 }
 

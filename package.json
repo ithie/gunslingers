@@ -11,13 +11,16 @@
   "engineStrict": true,
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc --noEmit && vite build",
+    "jscpd": "jscpd",
     "preview": "vite preview",
+    "quality:gate": "npm run jscpd && npm run test:coverage && npm run build && size-limit",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
     "test:coverage": "vitest run --coverage",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "type:check": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
     "vue": "^3.5.21",
@@ -29,12 +32,39 @@
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vue/test-utils": "^2.4.6",
     "histoire": "^0.17.17",
+    "jscpd": "^4.0.5",
     "jsdom": "^27.0.0",
+    "rollup-plugin-size-snapshot": "^0.12.0",
+    "rollup-plugin-visualizer": "^6.0.3",
     "sass": "^1.92.1",
     "sass-loader": "^16.0.5",
     "typescript": "^5.9.2",
     "vite": "^5.0.0",
     "vitest": "^3.2.4",
-    "vue-tsc": "^3.0.7"
+    "vue-tsc": "^3.1.0"
+  },
+  "jscpd": {
+    "threshold": 10,
+    "minTokens": 50,
+    "minLines": 5,
+    "maxLines": 1000,
+    "format": [
+      "typescript"
+    ],
+    "pattern": "src/**/*.(ts|tsx|vue)",
+    "ignore": [
+      "src/shims-vue.d.ts",
+      "src/vite-env.d.ts",
+      "src/main.ts",
+      "src/router/index.ts",
+      "src/store/index.ts",
+      "**/*.spec.t(s|sx)"
+    ],
+    "absolute": true,
+    "gitignore": true,
+    "reporters": [
+      "console",
+      "html"
+    ]
   }
 }

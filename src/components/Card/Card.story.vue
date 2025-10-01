@@ -1,19 +1,30 @@
 <template>
   <Story title="Card">
     <Variant title="Type Defense">
-      <Card :index="2" :type="CARD_TYPES.DEFENSE">DEFENSE</Card>
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.DEFENSE">
+        DEFENSE
+      </Card>
     </Variant>
     <Variant title="Type Modification">
-      <Card :index="2" :type="CARD_TYPES.MODIFICATION">MODIFICATION</Card>
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.MODIFICATION">
+        MODIFICATION
+      </Card>
     </Variant>
     <Variant title="Type Event">
-      <Card :index="2" :type="CARD_TYPES.EVENT">EVENT</Card>
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.EVENT">EVENT</Card>
     </Variant>
     <Variant title="Type Character">
-      <Card :index="2" :type="CARD_TYPES.CHARACTER">CHARACTER</Card>
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.CHARACTER">
+        CHARACTER
+      </Card>
     </Variant>
     <Variant title="Type Zone">
-      <Card :index="2" :type="CARD_TYPES.ZONE">ZONE</Card>
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.ZONE">ZONE</Card>
+    </Variant>
+    <Variant title="Type Empty">
+      <Card :index="2" :player-index="1" :type="CARD_TYPES.EMPTY_STACK">
+        EMPTY_STACK
+      </Card>
     </Variant>
   </Story>
 </template>
