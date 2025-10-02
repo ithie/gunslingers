@@ -1,4 +1,4 @@
-import { CARD_TYPES } from '../enums'
+import { CARD_TYPES } from '../constants'
 import IZoneCard from '../interfaces/IZoneCard'
 import shuffle from './shuffle'
 

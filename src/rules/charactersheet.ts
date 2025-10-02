@@ -1,5 +1,5 @@
 import { Ref } from 'vue'
-import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import { CARD_TYPES, VALUE_TYPES } from '../constants'
 import ICharacter from '../interfaces/ICharacter'
 import IGameTable from '../interfaces/IGameTable'
 import ICard from '../interfaces/ICard'

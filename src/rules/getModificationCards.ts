@@ -1,4 +1,4 @@
-import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import { CARD_TYPES, VALUE_TYPES } from '../constants'
 import ICard from '../interfaces/ICard'
 import iterateCards from './iterateCards'
 

@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 import Card from '../Card/Card.vue'
 import useGameTable from '../../composables/useGameTable/useGameTable'
 import useHandCards from './useHandCards'
@@ -37,7 +37,7 @@ import getCardComponent, { CardProps } from '../../utils/getCardComponent'
 const { playerIndex, type, filter } = defineProps<{
   playerIndex: number
   type: 'zone' | 'hand'
-  filter?: Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK>
+  filter?: Exclude<keyof typeof CARD_TYPES, 'EMPTY_STACK'>
   hideCards?: boolean
 }>()
 

@@ -31,6 +31,6 @@
 </template>
 
 <script setup lang="ts">
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 import Characters from './Characters.vue'
 </script>

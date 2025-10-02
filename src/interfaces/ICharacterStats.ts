@@ -1,4 +1,4 @@
-import { VALUE_TYPES } from '../enums'
+import { VALUE_TYPES } from '../constants'
 
 export default interface ICharacterStats {
   [VALUE_TYPES.HP]: number

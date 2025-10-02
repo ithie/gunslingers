@@ -32,7 +32,7 @@ import { computed } from 'vue'
 import HandCards from '../HandCards/HandCards.vue'
 import { ILayerData } from './useLayerManager'
 import useGameTable from '../../composables/useGameTable/useGameTable'
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 import useHandCards from '../HandCards/useHandCards'
 import HandCardsContainer from '../HandCardsContainer/HandCardsContainer.vue'
 

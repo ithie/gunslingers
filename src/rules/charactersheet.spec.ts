@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { gunslingerData, gamblerData, headhunterData } from './charactersheet'
-import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import { CARD_TYPES, VALUE_TYPES } from '../constants'
 
 const ALL_CHARACTERS = [gunslingerData, gamblerData, headhunterData]
 

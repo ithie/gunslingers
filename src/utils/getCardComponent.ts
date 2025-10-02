@@ -3,10 +3,10 @@ import DefenseCard from '../components/DefenseCard/DefenseCard.vue'
 import EventCard from '../components/EventCard/EventCard.vue'
 import ModificationCard from '../components/ModificationCard/ModificationCard.vue'
 import ZoneCard from '../components/ZoneCard/ZoneCard.vue'
-import { CARD_TYPES } from '../enums'
+import { CARD_TYPES } from '../constants'
 
 const CARD_MAP: {
-  [key in Exclude<CARD_TYPES, CARD_TYPES.EMPTY_STACK>]:
+  [key in Exclude<keyof typeof CARD_TYPES, 'EMPTY_STACK'>]:
     | typeof EventCard
     | typeof ModificationCard
     | typeof DefenseCard
@@ -18,10 +18,10 @@ const CARD_MAP: {
   [CARD_TYPES.DEFENSE]: DefenseCard,
   [CARD_TYPES.CHARACTER]: Characters,
   [CARD_TYPES.ZONE]: ZoneCard,
-}
+} as const
 
-const getCardComponent = (type: CARD_TYPES) => {
-  if (type === CARD_TYPES.EMPTY_STACK || !(type in CARD_TYPES)) {
+const getCardComponent = (type: keyof typeof CARD_TYPES) => {
+  if (type === CARD_TYPES.EMPTY_STACK || !CARD_TYPES[type]) {
     console.log('TYPE', type)
     return null
   }

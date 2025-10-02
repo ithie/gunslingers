@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import useHandCards from './useHandCards'
 import ICard from '../../interfaces/ICard'
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 
 const mockCard1: ICard = { name: 'card1', type: CARD_TYPES.MODIFICATION }
 const mockCard2: ICard = { name: 'card2', type: CARD_TYPES.MODIFICATION }

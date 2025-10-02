@@ -1,9 +1,9 @@
-import { CARD_TYPES } from '../enums'
+import { CARD_TYPES } from '../constants'
 import { type Effect } from './IEffect'
 
 export default interface ICardDefense {
   name: string
-  type: CARD_TYPES.DEFENSE
+  type: typeof CARD_TYPES.DEFENSE
   ruleText: string
   effect: Effect
 }

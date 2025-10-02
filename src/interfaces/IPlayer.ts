@@ -1,4 +1,4 @@
-import { VALUE_TYPES } from '../enums'
+import { VALUE_TYPES } from '../constants'
 import ICard from './ICard'
 import ICharacter from './ICharacter'
 import ICharacterStats from './ICharacterStats'

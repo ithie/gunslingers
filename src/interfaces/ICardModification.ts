@@ -1,8 +1,8 @@
-import { CARD_TYPES, VALUE_TYPES } from '../enums'
+import { CARD_TYPES, VALUE_TYPES } from '../constants'
 
 export default interface ICardModification {
   name: string
-  type: CARD_TYPES.MODIFICATION
+  type: typeof CARD_TYPES.MODIFICATION
   [VALUE_TYPES.ATK]: number
   [VALUE_TYPES.SPD]: number
   [VALUE_TYPES.DEF]: number

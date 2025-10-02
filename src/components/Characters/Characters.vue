@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 import { type Effect } from '../../interfaces/IEffect'
 import gunslingerImg from './assets/gunslinger.png'
 import gamblerImg from './assets/gambler.png'
@@ -26,7 +26,7 @@ const { name } = defineProps<{
   ATK?: number
   DEF?: number
   SPD?: number
-  type: CARD_TYPES
+  type: keyof typeof CARD_TYPES
   effect?: Effect
 }>()
 

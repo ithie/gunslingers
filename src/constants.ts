@@ -1,0 +1,24 @@
+export const VALUE_TYPES: { HP: 'HP'; ATK: 'ATK'; SPD: 'SPD'; DEF: 'DEF' } = {
+  HP: 'HP',
+  ATK: 'ATK',
+  SPD: 'SPD',
+  DEF: 'DEF',
+} as const
+
+export const CARD_TYPES: {
+  MODIFICATION: 'MODIFICATION'
+  DEFENSE: 'DEFENSE'
+  EVENT: 'EVENT'
+  CHARACTER: 'CHARACTER'
+  ZONE: 'ZONE'
+  EMPTY_STACK: 'EMPTY_STACK'
+} = {
+  MODIFICATION: 'MODIFICATION',
+  DEFENSE: 'DEFENSE',
+  EVENT: 'EVENT',
+  CHARACTER: 'CHARACTER',
+  ZONE: 'ZONE',
+  EMPTY_STACK: 'EMPTY_STACK',
+} as const
+
+export default { VALUE_TYPES, CARD_TYPES }

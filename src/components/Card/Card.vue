@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { CARD_TYPES } from '../../enums'
+import { CARD_TYPES } from '../../constants'
 import useCardSelect from '../../composables/useCardSelect/useCardSelect'
 
 const {
@@ -23,7 +23,7 @@ const {
   index,
   playerIndex,
 } = defineProps<{
-  type: CARD_TYPES
+  type: keyof typeof CARD_TYPES
   name?: string
   clickable?: boolean
   index: number

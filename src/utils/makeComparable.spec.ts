@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import makeComparable from './makeComparable'
-import { CARD_TYPES } from '../enums'
+import { CARD_TYPES } from '../constants'
 
 describe('makeComparable', () => {
   it('using initial data', () => {
