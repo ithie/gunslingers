@@ -11,12 +11,14 @@ import { type Component, computed } from 'vue'
 import useLayerManager from './useLayerManager'
 import DamageLayer from './DamageLayer.vue'
 import CharacterEffectLayer from './CharacterEffectLayer.vue'
+import RoundStartLayer from './RoundStartLayer.vue'
 
 const { layerState } = useLayerManager()
 
 const layers: Record<string, Component> = {
   DamageLayer,
   CharacterEffectLayer,
+  RoundStartLayer,
 }
 
 const props = computed(() => layerState.value?.data || {})

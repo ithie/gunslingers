@@ -45,6 +45,14 @@ export default () => {
         handCards.value.hand[idx][cardIndex] = undefined
       },
 
+      returnCardToDeck(idx, cardIndex) {
+        const card = handCards.value.hand[idx][cardIndex]
+        if (!card) return
+        handCards.value.hand[idx][cardIndex] = undefined
+        const insertAt = Math.floor(Math.random() * (gameTable.value.draftDeck.length + 1))
+        gameTable.value.draftDeck.splice(insertAt, 0, card)
+      },
+
       drawCard(idx) {
         const newCard = gameTable.value.draftDeck.pop()
         if (!newCard) return

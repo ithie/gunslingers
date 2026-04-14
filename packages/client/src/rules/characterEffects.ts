@@ -30,8 +30,11 @@ export interface EffectContext {
     value: number | boolean,
   ): void
 
-  /** Eine Handkarte abwerfen */
+  /** Eine Handkarte abwerfen (Karte verschwindet) */
   discardHandCard(playerIndex: number, cardIndex: number): void
+
+  /** Eine Handkarte in den Nachziehstapel zurückmischen */
+  returnCardToDeck(playerIndex: number, cardIndex: number): void
 
   /** Eine Karte vom Nachziehstapel nachziehen */
   drawCard(playerIndex: number): void
@@ -107,7 +110,7 @@ export const CHARACTER_EFFECTS: Record<string, CharacterEffectDefinition> = {
       const cardCount = hand.filter(Boolean).length
 
       hand.forEach((card, i) => {
-        if (card) ctx.discardHandCard(ctx.playerIndex, i)
+        if (card) ctx.returnCardToDeck(ctx.playerIndex, i)
       })
 
       const drawCount = Math.min(cardCount, 5)

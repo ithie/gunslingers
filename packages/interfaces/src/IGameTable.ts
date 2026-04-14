@@ -3,6 +3,12 @@ import IPlayer from './IPlayer'
 import ITurnStats from './ITurnStats'
 import IZoneCard from './IZoneCard'
 
+export interface RoundStartInfo {
+  roundNumber: number
+  initiativePlayerIndex: number
+  initiativePlayerName: string
+}
+
 export default interface IGameTable {
   draftDeck: ICard[]
   zoneDraftDeck: IZoneCard[]
@@ -18,6 +24,9 @@ export default interface IGameTable {
     next: (defenseCard?: ICard) => void
   }
   gameEnds: boolean
+  isDraw: boolean
+  /** Gesetzt zu Beginn jeder neuen Runde; wird nach dem Overlay gelöscht */
+  roundStartInfo?: RoundStartInfo
   activeTurn: {
     attacked: boolean
   }

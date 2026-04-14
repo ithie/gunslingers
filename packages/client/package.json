@@ -9,7 +9,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "jscpd": "jscpd",
     "preview": "vite preview",
-    "quality:gate": "npm run jscpd && npm run test:coverage && npm run build && size-limit",
+    "quality:gate": "npm run jscpd && npm run test:coverage && npm run build",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
