@@ -15383,7 +15383,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
             "__name": "DefenseCard",
             "components": {},
             "props": {
@@ -15454,7 +15454,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
           "__name": "DefenseCard",
           "components": {},
           "props": {
@@ -22341,7 +22341,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
             "__name": "DefenseCard",
             "components": {},
             "props": {
@@ -22407,7 +22407,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
           "__name": "DefenseCard",
           "components": {},
           "props": {
@@ -38106,7 +38106,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
             "__name": "DefenseCard",
             "components": {},
             "props": {
@@ -38177,7 +38177,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/DefenseCard/DefenseCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/DefenseCard/DefenseCard.vue",
           "__name": "DefenseCard",
           "components": {},
           "props": {

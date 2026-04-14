@@ -18,6 +18,13 @@ import {
   headhunterData,
 } from '../../rules/charactersheet'
 import { CHARACTER_EFFECTS } from '../../rules/characterEffects'
+import {
+  filterDefenseCards,
+  resolveDefense,
+  resolveTurnStartDamage,
+  isAttackPrevented,
+  resolveOnPlay,
+} from '../../rules/cardEffectEngine'
 
 // ---------------------------------------------------------------------------
 // Netzwerk-Typen
@@ -76,24 +83,6 @@ const CHARACTER_REGISTRY: Record<string, ICharacter> = {
   'character.gambler': gamblerData,
   'character.headhunter': headhunterData,
 }
-
-// ---------------------------------------------------------------------------
-// Abwehrkarten mit SPD-Voraussetzung (SPD ≥ 3)
-// ---------------------------------------------------------------------------
-
-const DEFENSE_CARDS_REQUIRING_SPD3 = new Set([
-  'card.defense.blocking',
-  'card.defense.duckAndRoll',
-  'card.defense.counterShot',
-  'card.defense.ricochet',
-])
-
-/** Filtert Abwehrkarten nach den SPD-Anforderungen des Verteidigers */
-const filterDefenseCards = (cards: ICard[], defenderSpd: number): ICard[] =>
-  cards.filter((c) => {
-    if (DEFENSE_CARDS_REQUIRING_SPD3.has(c.name)) return defenderSpd >= 3
-    return true // Ausweichen hat eigene Logik, aber kann immer gespielt werden
-  })
 
 // ---------------------------------------------------------------------------
 // Modul-Level State (Singleton)
@@ -264,33 +253,15 @@ const applyDamage = (
   damage: number,
   defenseCard: ICard | null,
 ) => {
-  if (defenseCard) {
-    if (defenseCard.name === 'card.defense.ricochet') {
-      const half = Math.round(damage / 2)
-      gameTable.value.players[nextPlayer].vCharacter.HP -= half
-      gameTable.value.players[activePlayer].vCharacter.HP -= half
-    } else if (defenseCard.name === 'card.defense.counterShot') {
-      gameTable.value.players[nextPlayer].vCharacter.HP -= damage
-      gameTable.value.players[activePlayer].vCharacter.HP -= 1
-    } else if (defenseCard.name === 'card.defense.duckAndRoll') {
-      // kein Schaden
-    } else if (defenseCard.name === 'card.defense.blocking') {
-      const reduced = damage - 2
-      if (reduced > 0) gameTable.value.players[nextPlayer].vCharacter.HP -= reduced
-    } else if (defenseCard.name === 'card.defense.timeDistortion') {
-      // Nur wirksam wenn Angreifer ≥ +2 GES hat
-      if (
-        gameTable.value.players[activePlayer].vCharacter.SPD -
-          gameTable.value.players[nextPlayer].vCharacter.SPD >= 2
-      ) {
-        // Karte verhindert Schaden — kein Schaden
-      } else {
-        gameTable.value.players[nextPlayer].vCharacter.HP -= damage
-      }
-    }
-  } else {
-    gameTable.value.players[nextPlayer].vCharacter.HP -= damage
-  }
+  const { defenderDamage, attackerDamage } = resolveDefense(
+    defenseCard,
+    damage,
+    gameTable.value.players[nextPlayer].vCharacter[VALUE_TYPES.SPD],
+    gameTable.value.players[activePlayer].vCharacter[VALUE_TYPES.SPD],
+  )
+
+  if (defenderDamage > 0) gameTable.value.players[nextPlayer].vCharacter.HP -= defenderDamage
+  if (attackerDamage > 0) gameTable.value.players[activePlayer].vCharacter.HP -= attackerDamage
 
   calculateStats()
 }
@@ -469,16 +440,15 @@ const endTurn = () => {
     )
   }
 
-  // Schlangenbiss-Effekt
+  // TURN_START: Schaden durch liegende Karten auflösen (z.B. Schlangenbiss)
   const { boardStack } = usePlayground().get(activeNext)
-  unref(boardStack).forEach((stack: unknown[]) => {
-    if (stack && (stack as unknown[]).length > 0 && (stack[0] as ICard)?.name === 'card.event.snakeBite') {
-      gameTable.value.players[activeNext].vCharacter.HP -= 1
-      if (gameTable.value.players[activeNext].vCharacter.HP <= 0) {
-        gameTable.value.gameEnds = true
-      }
+  const turnStartDamage = resolveTurnStartDamage(unref(boardStack))
+  if (turnStartDamage > 0) {
+    gameTable.value.players[activeNext].vCharacter.HP -= turnStartDamage
+    if (gameTable.value.players[activeNext].vCharacter.HP <= 0) {
+      gameTable.value.gameEnds = true
     }
-  })
+  }
 
   drawNewCards(activeNext)
 }
@@ -510,12 +480,9 @@ const attack = () => {
   const activePlayer = gameTable.value.turnStats.activePlayerIndex
   const nextPlayer = getNextPlayer()
 
-  // Kopfnuss: Angreifer kann nicht angreifen
+  // ON_ATTACK: Angriff durch liegende Karte verhindert? (z.B. Kopfnuss)
   const activeBoardStack = unref(usePlayground().get(activePlayer).boardStack)
-  const hasHeadButt = activeBoardStack.some(
-    (stack) => (stack as unknown[]).length > 0 && (stack[0] as ICard)?.name === 'card.event.headButt',
-  )
-  if (hasHeadButt) {
+  if (isAttackPrevented(activeBoardStack)) {
     endTurn()
     broadcastState()
     return
@@ -615,15 +582,13 @@ const playCardsInternal = (playerIndex: number) => {
   const targetPlayer =
     cardToPlace && cardToPlace.type === CARD_TYPES.EVENT ? getNextPlayer() : playerIndex
 
-  // Sofort-Effekte beim Ausspielen
-  if (cardToPlace?.type === CARD_TYPES.EVENT) {
-    if (cardToPlace.name === 'card.event.healing') {
-      gameTable.value.players[playerIndex].vCharacter.HP = Math.min(
-        gameTable.value.players[playerIndex].vCharacter.HP + 2,
-        gameTable.value.players[playerIndex].character.HP,
-      )
-    }
-    // "Falsches Spiel" wird nach dem Ablegen ausgelöst
+  // ON_PLAY: Soforteffekt der Karte auflösen
+  const onPlayResult = cardToPlace ? resolveOnPlay(cardToPlace) : null
+  if (onPlayResult?.type === 'HEAL') {
+    gameTable.value.players[playerIndex].vCharacter.HP = Math.min(
+      gameTable.value.players[playerIndex].vCharacter.HP + onPlayResult.amount,
+      gameTable.value.players[playerIndex].character.HP,
+    )
   }
 
   // Karte auf alle Zielfelder legen ("ALLE FELDER" oder normales Feld)
@@ -640,8 +605,8 @@ const playCardsInternal = (playerIndex: number) => {
 
   calculateStats()
 
-  // "Falsches Spiel" → Gegner muss 2 Karten abwerfen (nach calculateStats)
-  if (cardToPlace?.name === 'card.event.falsePlay') {
+  // FORCE_DISCARD wird nach calculateStats ausgeführt (UI-Aktion)
+  if (onPlayResult?.type === 'FORCE_DISCARD') {
     triggerFalsePlay(targetPlayer)
   }
 }

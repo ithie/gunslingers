@@ -3191,7 +3191,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
             "__name": "ZoneCard",
             "components": {},
             "props": {
@@ -3276,7 +3276,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
           "__name": "ZoneCard",
           "components": {},
           "props": {
@@ -6812,7 +6812,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
             "__name": "ZoneCard",
             "components": {},
             "props": {
@@ -6892,7 +6892,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
           "__name": "ZoneCard",
           "components": {},
           "props": {
@@ -10440,7 +10440,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
             "__name": "ZoneCard",
             "components": {},
             "props": {
@@ -10524,7 +10524,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
           "__name": "ZoneCard",
           "components": {},
           "props": {
@@ -14060,7 +14060,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
             "__name": "ZoneCard",
             "components": {},
             "props": {
@@ -14140,7 +14140,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
           "__name": "ZoneCard",
           "components": {},
           "props": {
@@ -17685,7 +17685,7 @@ VueWrapper {
           "suspense": null,
           "suspenseId": 0,
           "type": {
-            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+            "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
             "__name": "ZoneCard",
             "components": {},
             "props": {
@@ -17768,7 +17768,7 @@ VueWrapper {
         "targetStart": null,
         "transition": null,
         "type": {
-          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/src/components/ZoneCard/ZoneCard.vue",
+          "__file": "/Users/michael.draws-beer/Desktop/gunslingers/packages/client/src/components/ZoneCard/ZoneCard.vue",
           "__name": "ZoneCard",
           "components": {},
           "props": {
