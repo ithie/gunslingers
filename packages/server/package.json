@@ -1,0 +1,19 @@
+{
+  "name": "gunslingers",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "ws": "^8.18.3"
+  },
+  "scripts": {
+    "dev:server": "tsx src/server.ts"
+  },
+  "devDependencies": {
+    "readline": "^1.3.0",
+    "tsx": "^4.21.0"
+  }
+}

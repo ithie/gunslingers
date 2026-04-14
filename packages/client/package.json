@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "jscpd": "jscpd",
+    "preview": "vite preview",
+    "quality:gate": "npm run jscpd && npm run test:coverage && npm run build && size-limit",
+    "story:dev": "histoire dev",
+    "story:build": "histoire build",
+    "story:preview": "histoire preview",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest",
+    "type:check": "vue-tsc --noEmit --watch"
+  }
+}

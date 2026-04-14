@@ -1,6 +1,12 @@
 {
   "name": "gunslingers",
   "private": true,
+  "workspaces": [
+    "packages/client",
+    "packages/components",
+    "packages/interfaces",
+    "packages/server"
+  ],
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
@@ -9,25 +15,15 @@
     "npm": "10.5.0"
   },
   "engineStrict": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "jscpd": "jscpd",
-    "preview": "vite preview",
-    "quality:gate": "npm run jscpd && npm run test:coverage && npm run build && size-limit",
-    "story:dev": "histoire dev",
-    "story:build": "histoire build",
-    "story:preview": "histoire preview",
-    "test:coverage": "vitest run --coverage",
-    "test:unit": "vitest",
-    "type:check": "vue-tsc --noEmit --watch"
-  },
   "dependencies": {
     "vue": "^3.5.21",
-    "vue-i18n": "^11.1.12"
+    "vue-i18n": "^11.1.12",
+    "vue-router": "^4.5.1",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.17",
+    "@types/ws": "^8.18.1",
     "@vitejs/plugin-vue": "^5.0.0",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vue/test-utils": "^2.4.6",

@@ -9,15 +9,11 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "declaration": true,
-    "declarationDir": "./dist",
-    "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
   "include": [
-    "packages/client/src",
-    "packages/server/src",
-    "packages/interfaces/src"
+    "src",
+    "../interfaces/src"
   ]
 }
